@@ -6,17 +6,16 @@ import { prisma } from '@/lib/prisma'
 
 const kennelSchema = z.object({
   name: z.string().min(1, 'Kennel name is required'),
-  registrationNumber: z.string().optional(),
-  ownerName: z.string().optional(),
-  email: z.string().email().optional().or(z.literal('')),
-  phone: z.string().optional(),
-  address: z.string().optional(),
+  breederName: z.string().optional(),
+  country: z.string().optional(),
   city: z.string().optional(),
-  province: z.string().optional(),
-  country: z.string().default('South Africa'),
+  region: z.string().optional(),
+  contactEmail: z.string().email().optional().or(z.literal('')),
+  contactPhone: z.string().optional(),
   website: z.string().url().optional().or(z.literal('')),
+  logo: z.string().optional(),
   description: z.string().optional(),
-  isActive: z.boolean().default(true),
+  active: z.boolean().default(true),
 })
 
 export async function POST(request: Request) {
@@ -33,17 +32,16 @@ export async function POST(request: Request) {
     const kennel = await prisma.kennel.create({
       data: {
         name: validatedData.name,
-        registrationNumber: validatedData.registrationNumber || null,
-        ownerName: validatedData.ownerName || null,
-        email: validatedData.email || null,
-        phone: validatedData.phone || null,
-        address: validatedData.address || null,
+        breederName: validatedData.breederName || null,
+        country: validatedData.country || null,
         city: validatedData.city || null,
-        province: validatedData.province || null,
-        country: validatedData.country,
+        region: validatedData.region || null,
+        contactEmail: validatedData.contactEmail || null,
+        contactPhone: validatedData.contactPhone || null,
         website: validatedData.website || null,
+        logo: validatedData.logo || null,
         description: validatedData.description || null,
-        isActive: validatedData.isActive,
+        active: validatedData.active,
       },
     })
 
