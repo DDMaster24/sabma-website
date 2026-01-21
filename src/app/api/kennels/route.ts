@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { authOptions, isAdmin } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const kennelSchema = z.object({
   name: z.string().min(1, 'Kennel name is required'),
   breederName: z.string().optional(),

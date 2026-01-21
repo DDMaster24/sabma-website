@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { authOptions, isAdmin } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const updateMemberSchema = z.object({
   isActive: z.boolean().optional(),
   role: z.enum(['MEMBER', 'ADMIN']).optional(),
