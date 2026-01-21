@@ -97,7 +97,7 @@ function NavDropdown({
 }
 
 export default function Header() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isAuthenticated = status === "authenticated";
