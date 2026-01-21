@@ -1,0 +1,212 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication (members and admins)
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          UserRole  @default(MEMBER)
+  isActive      Boolean   @default(false) // Requires admin approval
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum UserRole {
+  MEMBER
+  ADMIN
+  SUPER_ADMIN
+}
+
+// Kennel/Breeder model
+model Kennel {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  breederName   String?
+  country       String?
+  city          String?
+  region        String?
+  contactEmail  String?
+  contactPhone  String?
+  website       String?
+  logo          String?   // URL to logo image
+  description   String?   @db.Text
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  dogs          Dog[]     @relation("KennelDogs")
+  litters       Litter[]
+}
+
+// Dog model - the main entity
+model Dog {
+  id                    String       @id @default(cuid())
+
+  // Identity
+  registeredName        String
+  registrationNumber    String?      @unique
+  microchipNumber       String?      @unique
+
+  // Basic information
+  sex                   Sex
+  dateOfBirth           DateTime
+  color                 String?
+  markings              String?      @db.Text
+  status                DogStatus    @default(ALIVE)
+
+  // Lineage - self-referential relationships
+  sireId                String?
+  sire                  Dog?         @relation("SireChildren", fields: [sireId], references: [id], onDelete: SetNull)
+  damId                 String?
+  dam                   Dog?         @relation("DamChildren", fields: [damId], references: [id], onDelete: SetNull)
+
+  // Children relationships (reverse relations)
+  sireChildren          Dog[]        @relation("SireChildren")
+  damChildren           Dog[]        @relation("DamChildren")
+
+  // Litter information
+  litterId              String?
+  litter                Litter?      @relation("LitterPuppies", fields: [litterId], references: [id], onDelete: SetNull)
+
+  // Litter relations (when this dog is a parent)
+  littersAsSire         Litter[]     @relation("LitterSire")
+  littersAsDam          Litter[]     @relation("LitterDam")
+
+  // Breeder/Owner
+  kennelId              String?
+  kennel                Kennel?      @relation("KennelDogs", fields: [kennelId], references: [id], onDelete: SetNull)
+  breederName           String?
+  currentOwner          String?
+  ownerContact          String?
+
+  // Registration & Official data
+  registryName          String?      // e.g., SABMA, SABBS
+  registrationType      RegistrationType?
+
+  // Appraisal & Health
+  appraisalScore        Float?
+  appraisalClassification String?
+  inbreedingCoefficient Float?
+  dnaVerified           Boolean      @default(false)
+  hipScore              String?
+  elbowScore            String?
+  healthNotes           String?      @db.Text
+
+  // Media
+  photos                Photo[]
+  certificates          Certificate[]
+
+  // Metadata
+  notes                 String?      @db.Text
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  @@index([registrationNumber])
+  @@index([microchipNumber])
+  @@index([kennelId])
+  @@index([sireId])
+  @@index([damId])
+  @@index([dateOfBirth])
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum DogStatus {
+  ALIVE
+  DECEASED
+  EXPORTED
+  PET_ONLY
+  BREEDING
+  RETIRED
+}
+
+enum RegistrationType {
+  STUDBOOK
+  PET_REGISTER
+  PROVISIONAL
+}
+
+// Litter model
+model Litter {
+  id              String    @id @default(cuid())
+
+  sireId          String
+  sire            Dog       @relation("LitterSire", fields: [sireId], references: [id])
+  damId           String
+  dam             Dog       @relation("LitterDam", fields: [damId], references: [id])
+
+  dateOfBirth     DateTime
+  numberOfPups    Int?
+
+  kennelId        String?
+  kennel          Kennel?   @relation(fields: [kennelId], references: [id], onDelete: SetNull)
+
+  puppies         Dog[]     @relation("LitterPuppies")
+
+  notes           String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([sireId])
+  @@index([damId])
+  @@index([kennelId])
+}
+
+// Photo model for dog images
+model Photo {
+  id          String    @id @default(cuid())
+  dogId       String
+  dog         Dog       @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  url         String
+  publicId    String?   // Cloudinary public ID for deletion
+  caption     String?
+  isPrimary   Boolean   @default(false)
+  order       Int       @default(0)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([dogId])
+  @@index([isPrimary])
+}
+
+// Certificate model for registration documents
+model Certificate {
+  id          String    @id @default(cuid())
+  dogId       String
+  dog         Dog       @relation(fields: [dogId], references: [id], onDelete: Cascade)
+
+  type        CertificateType
+  url         String
+  publicId    String?   // Cloudinary public ID for deletion
+  issueDate   DateTime?
+  description String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([dogId])
+}
+
+enum CertificateType {
+  REGISTRATION
+  APPRAISAL
+  DNA
+  HEALTH
+  OTHER
+}

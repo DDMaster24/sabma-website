@@ -1,0 +1,8 @@
+# robots.txt for SABMA - South African Black Mastiff Association
+# https://www.southafricanblackmastiff.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.southafricanblackmastiff.com/sitemap.xml

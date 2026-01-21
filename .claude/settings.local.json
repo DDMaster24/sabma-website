@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh auth status:*)",
+      "Bash(gh repo create:*)",
+      "Bash(npm install:*)",
+      "Bash(npx wrangler pages deploy:*)",
+      "Skill(frontend-design)",
+      "Bash(npx wrangler:*)",
+      "Skill(feature-dev:feature-dev)"
+    ]
+  }
+}
