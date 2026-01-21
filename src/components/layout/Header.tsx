@@ -156,7 +156,7 @@ export default function Header() {
             </Link>
 
             {/* Main Navigation - Desktop */}
-            <div className="hidden lg:flex items-center gap-2 xl:gap-3 flex-wrap justify-center flex-1">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3 justify-center flex-1">
               {/* Direct links styling as buttons */}
               {mainNav.map((item) => (
                 <Link

@@ -1,8 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   breeders,
-  testimonials,
   membershipBenefits,
 } from "@/data/content";
 import Reveal from "@/components/ui/Reveal";
@@ -51,13 +49,6 @@ function HeroSection() {
         </svg>
       )
     },
-  ];
-
-  const heroImages = [
-    "/images/about/two-mastiffs.jpg",
-    "/images/gallery/WhatsApp-Image-2024-02-01-at-21.44.39.jpeg",
-    "/images/gallery/WhatsApp-Image-2024-02-01-at-21.53.08.jpeg",
-    "/images/hero/hero-dogs-water.jpg",
   ];
 
   return (
@@ -112,61 +103,20 @@ function HeroSection() {
         {/* Photo Gallery - Asymmetric Grid */}
         <div className="pb-16 lg:pb-20">
           <div className="grid grid-cols-12 gap-4 lg:gap-6 max-w-6xl mx-auto">
-            {/* Large featured image */}
+            {/* Large featured placeholder */}
             <div className="col-span-12 md:col-span-7 relative">
-              <div className="relative aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl shadow-espresso/15 group">
-                <Image
-                  src={heroImages[0]}
-                  alt="South African Black Mastiffs"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/50 via-transparent to-transparent" />
-
-                {/* Floating stat badge */}
-                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                  <div className="bg-white/95 backdrop-blur-sm rounded-xl px-5 py-4 shadow-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="text-center">
-                        <div className="font-display text-3xl font-light text-bronze-600">10+</div>
-                        <div className="text-xs text-warm-500 uppercase tracking-wider">Years</div>
-                      </div>
-                      <div className="w-px h-10 bg-warm-200" />
-                      <div className="text-center">
-                        <div className="font-display text-3xl font-light text-bronze-600">100+</div>
-                        <div className="text-xs text-warm-500 uppercase tracking-wider">Dogs</div>
-                      </div>
-                      <div className="w-px h-10 bg-warm-200" />
-                      <div className="text-center">
-                        <div className="font-display text-3xl font-light text-bronze-600">5+</div>
-                        <div className="text-xs text-warm-500 uppercase tracking-wider">Breeders</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="relative aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl shadow-espresso/15 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
+                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
               </div>
             </div>
 
-            {/* Stacked smaller images */}
+            {/* Stacked smaller placeholders */}
             <div className="col-span-12 md:col-span-5 grid grid-cols-2 md:grid-cols-1 gap-4 lg:gap-6">
-              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 group">
-                <Image
-                  src={heroImages[1]}
-                  alt="Black Mastiff portrait"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/30 to-transparent" />
+              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
+                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
               </div>
-              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 group">
-                <Image
-                  src={heroImages[2]}
-                  alt="Black Mastiff"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso/30 to-transparent" />
+              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
+                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
               </div>
             </div>
           </div>
@@ -233,20 +183,15 @@ function AboutSection() {
 
       <div className="container-custom relative">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Image */}
+          {/* Image Placeholder */}
           <div className="relative">
             <div className="relative">
               {/* Background shape */}
               <div className="absolute -inset-8 lg:-inset-12 bg-gradient-to-br from-bronze-400/5 to-transparent rounded-3xl" />
 
-              {/* Main image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden image-frame shadow-xl shadow-espresso/15">
-                <Image
-                  src="/images/hero/hero-dogs-water.jpg"
-                  alt="Black Mastiffs"
-                  fill
-                  className="object-cover"
-                />
+              {/* Placeholder */}
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-espresso/15 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
+                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
               </div>
 
               {/* Decorative corner */}
@@ -389,7 +334,7 @@ function BenefitsSection() {
         </div>
 
         <div className="text-center mt-16">
-          <Link href="/about" className="btn-primary">
+          <Link href="/register" className="btn-primary">
             <span>Become a Member</span>
           </Link>
         </div>
@@ -442,26 +387,9 @@ function BreedersSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {breeders.slice(0, 3).map((breeder, index) => (
             <Reveal key={breeder.id} className="group" delay={index * 150} animation="fade-in-up">
-              {/* Image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 shadow-lg shadow-espresso/10">
-                <Image
-                  src={breeder.image}
-                  alt={breeder.kennel}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/40 to-transparent" />
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-bronze-500/80 flex items-center justify-center
-                              opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <span className="text-white font-semibold tracking-wide uppercase text-sm
-                                 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    View Profile
-                  </span>
-                </div>
-
+              {/* Placeholder */}
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 shadow-lg shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
+                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
                 {/* Number badge */}
                 <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm
                               flex items-center justify-center border border-espresso/10">
@@ -496,78 +424,6 @@ function BreedersSection() {
   );
 }
 
-// Testimonials Section
-function TestimonialsSection() {
-  return (
-    <section className="section-padding bg-ivory relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-20 left-10 w-64 h-64 text-bronze-500/5">
-        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-        </svg>
-      </div>
-
-      <div className="container-custom relative">
-        {/* Section header */}
-        <Reveal className="section-header" animation="fade-in-up">
-          <span className="label mb-6">Testimonials</span>
-          <h2>What Our <span className="text-gradient">Members Say</span></h2>
-        </Reveal>
-
-        {/* Testimonials grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <Reveal
-              key={testimonial.id}
-              className="relative group block"
-              delay={index * 150}
-              animation="scale-in"
-            >
-              {/* Card */}
-              <div className="card-glass h-full">
-                {/* Quote icon */}
-                <div className="absolute -top-5 left-8">
-                  <div className="w-10 h-10 bg-gradient-to-br from-bronze-500 to-bronze-600 rounded-xl
-                                flex items-center justify-center shadow-lg shadow-bronze-500/30">
-                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Quote */}
-                <p className="text-warm-600 leading-relaxed mb-8 mt-4 italic line-clamp-3">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </p>
-
-                {/* Author */}
-                <div className="flex items-center gap-4 pt-6 border-t border-espresso/5">
-                  <div className="w-12 h-12 rounded-full bg-bronze-500/10 flex items-center justify-center">
-                    <span className="text-bronze-600 font-display text-lg">
-                      {testimonial.name.charAt(0)}
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-espresso">
-                      {testimonial.name}
-                    </h4>
-                    <p className="text-sm text-bronze-600">SABMA Member</p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="text-center mt-16">
-          <Link href="/testimonials" className="btn-secondary">
-            <span>Read All Testimonials</span>
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // CTA Section
 function CTASection() {
@@ -646,7 +502,6 @@ export default function Home() {
       <AboutSection />
       <BenefitsSection />
       <BreedersSection />
-      <TestimonialsSection />
       <CTASection />
     </>
   );
