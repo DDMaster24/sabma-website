@@ -6,6 +6,26 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 // Gallery images - add more images here as needed
 const galleryImages = [
+  // Featured hero/breed images
+  { src: "/images/hero/mastiff-sunset-left.png", alt: "Black Mastiff silhouette at sunset" },
+  { src: "/images/hero/mastiff-sunset-right.png", alt: "Black Mastiff in golden wheat field" },
+  { src: "/images/breed/black-mastiff-adult-studio.png", alt: "Adult Black Mastiff studio portrait" },
+  { src: "/images/breed/black-mastiff-puppy-studio.png", alt: "Black Mastiff puppy studio portrait" },
+  { src: "/images/dogs/black-mastiff-front-portrait.jpg", alt: "Black Mastiff front portrait" },
+  { src: "/images/dogs/black-mastiff-hilltop-blue-sky.jpg", alt: "Black Mastiff on hilltop" },
+  { src: "/images/studs/nyamvubu-serabi.jpg", alt: "Nyamvubu Serabi - registered stud" },
+  // Puppies
+  { src: "/images/puppies/black-mastiff-puppy-walking.jpg", alt: "Black Mastiff puppy walking" },
+  { src: "/images/puppies/nyamvubu-pepper-card.jpg", alt: "Nyamvubu Pepper puppy" },
+  { src: "/images/puppies/pepper-puppy-white-bg.jpg", alt: "Pepper puppy portrait" },
+  // New gallery images
+  { src: "/images/gallery/mastiff-running-field.jpg", alt: "Mastiff running in field" },
+  { src: "/images/gallery/black-mastiff-stance-01.jpg", alt: "Black Mastiff in show stance" },
+  { src: "/images/gallery/black-mastiff-portrait-01.jpg", alt: "Black Mastiff portrait" },
+  { src: "/images/gallery/black-mastiff-portrait-02.jpg", alt: "Black Mastiff portrait" },
+  { src: "/images/gallery/black-mastiff-studio-portrait.png", alt: "Black Mastiff studio portrait trio" },
+  { src: "/images/breed/black-mastiff-poses-grid.png", alt: "Black Mastiff multiple poses" },
+  // Original gallery images
   { src: "/images/gallery/WhatsApp-Image-2025-02-26-at-16.35.54.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/gallery/WhatsApp-Image-2025-02-26-at-16.37.20.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.51.33.jpeg", alt: "South African Black Mastiff" },
@@ -21,12 +41,7 @@ const galleryImages = [
   { src: "/images/gallery/WhatsApp-Image-2024-02-12-at-20.27.37.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.46.50.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.53.08.jpeg", alt: "South African Black Mastiff" },
-  { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.41.40.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.45.28.jpeg", alt: "South African Black Mastiff" },
-  { src: "/images/gallery/WhatsApp-Image-2024-02-17-at-18.05.311.jpeg", alt: "South African Black Mastiff" },
-  { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.53.31.jpeg", alt: "South African Black Mastiff" },
-  { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.54.26.jpeg", alt: "South African Black Mastiff" },
-  { src: "/images/gallery/WhatsApp-Image-2024-02-01-at-21.43.21.jpeg", alt: "South African Black Mastiff" },
   { src: "/images/hero/hero-main.jpg", alt: "South African Black Mastiff" },
   { src: "/images/hero/hero-dogs-water.jpg", alt: "South African Black Mastiffs by water" },
   { src: "/images/dogs/mastiff-sitting.jpg", alt: "Black Mastiff sitting" },

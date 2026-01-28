@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { breeders, membershipBenefits } from "@/data/content";
 
@@ -121,19 +122,17 @@ function HeroSection() {
 
               {/* Main image container */}
               <div className="relative h-full bg-gradient-to-br from-charcoal to-noir rounded-2xl overflow-hidden border border-stone-800/50">
-                {/* Placeholder content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-amber-500/10 flex items-center justify-center mb-6 border border-amber-500/20">
-                    <svg className="w-12 h-12 text-amber-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <span className="text-stone-500 font-medium">Hero Portrait</span>
-                  <span className="text-stone-600 text-sm mt-1">Majestic breed photography</span>
-                </div>
+                {/* Hero Image */}
+                <Image
+                  src="/images/breed/black-mastiff-adult-studio.png"
+                  alt="South African Black Mastiff - Majestic breed portrait"
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
 
                 {/* Cinematic gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-noir via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/20 to-transparent" />
 
                 {/* Corner accents */}
                 <div className="absolute top-6 left-6 w-12 h-12">
@@ -229,9 +228,12 @@ function AboutSection() {
             <div className="relative">
               {/* Image frame */}
               <div className="relative aspect-[3/4] bg-gradient-to-br from-charcoal to-noir rounded-lg overflow-hidden border border-stone-800/50">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-stone-600 font-medium">Heritage Image</span>
-                </div>
+                <Image
+                  src="/images/dogs/black-mastiff-front-portrait.jpg"
+                  alt="South African Black Mastiff - Heritage breed"
+                  fill
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-noir/60 via-transparent to-transparent" />
 
                 {/* Inner border */}

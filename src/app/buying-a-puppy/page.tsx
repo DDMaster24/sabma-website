@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Buying a Puppy",
@@ -154,17 +155,31 @@ export default function BuyingAPuppyPage() {
         <div className="absolute bottom-10 left-10 w-64 h-64 bg-amber-600/5 rounded-full blur-2xl" />
 
         <div className="container-custom relative">
-          <div className="max-w-3xl">
-            <span className="label-micro mb-4 block">
-              Your Journey Starts Here
-            </span>
-            <h1 className="heading-display text-cream mb-6">
-              Buying a <span className="text-gradient-amber">Puppy</span>
-            </h1>
-            <p className="text-xl text-stone-400 leading-relaxed">
-              Everything you need to know about bringing a South African Black
-              Mastiff into your family.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-xl">
+              <span className="label-micro mb-4 block">
+                Your Journey Starts Here
+              </span>
+              <h1 className="heading-display text-cream mb-6">
+                Buying a <span className="text-gradient-amber">Puppy</span>
+              </h1>
+              <p className="text-xl text-stone-400 leading-relaxed">
+                Everything you need to know about bringing a South African Black
+                Mastiff into your family.
+              </p>
+            </div>
+            <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
+              <div className="absolute -inset-4 bg-gradient-to-br from-amber-500/10 to-copper-500/5 rounded-2xl blur-2xl" />
+              <div className="relative h-full rounded-2xl overflow-hidden border border-stone-800/50">
+                <Image
+                  src="/images/breed/black-mastiff-puppy-studio.png"
+                  alt="South African Black Mastiff puppy"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-noir/40 via-transparent to-transparent" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
