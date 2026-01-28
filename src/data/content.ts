@@ -20,10 +20,10 @@ export const navigation = [
   { name: "The Council", href: "/council" },
   { name: "Breeders", href: "/breeders" },
   { name: "Stud Register", href: "/stud-register" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Resources", href: "/resources" },
   { name: "Buying a Puppy", href: "/buying-a-puppy" },
   { name: "Calendar", href: "/calendar" },
-  { name: "Testimonials", href: "/testimonials" },
   { name: "Contact Us", href: "/contact" },
 ];
 
