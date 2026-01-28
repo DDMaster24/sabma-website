@@ -12,20 +12,19 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 bg-espresso overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-espresso via-espresso-100 to-espresso" />
-        <div className="absolute top-20 right-20 w-96 h-96 bg-bronze-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-bronze-500/5 rounded-full blur-2xl" />
+      <section className="relative py-24 lg:py-32 mesh-spotlight overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-amber-600/5 rounded-full blur-2xl" />
 
         <div className="container-custom relative">
           <div className="max-w-3xl">
-            <span className="inline-block text-bronze-400 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               Legal
             </span>
-            <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-ivory-100 mb-6">
-              Privacy Policy
+            <h1 className="heading-display text-cream mb-6">
+              Privacy <span className="text-gradient-amber">Policy</span>
             </h1>
-            <p className="text-xl text-ivory-400 leading-relaxed">
+            <p className="text-xl text-stone-400 leading-relaxed">
               Your privacy is important to us. This policy explains how we
               collect, use, and protect your personal information.
             </p>
@@ -34,21 +33,21 @@ export default function PrivacyPolicyPage() {
       </section>
 
       {/* Content Section */}
-      <section className="section-padding bg-ivory">
+      <section className="section-padding bg-noir">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
-            <div className="prose prose-lg prose-warm max-w-none">
-              <p className="text-warm-600 leading-relaxed mb-8">
+            <div className="prose prose-lg prose-invert max-w-none">
+              <p className="text-stone-400 leading-relaxed mb-8">
                 Last updated: {new Date().toLocaleDateString("en-ZA", { month: "long", year: "numeric" })}
               </p>
 
               <div className="space-y-12">
                 {/* Section 1 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     1. Information We Collect
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       The South African Black Mastiff Association (SABMA) collects information
                       that you voluntarily provide to us when you:
@@ -69,10 +68,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 2 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     2. How We Use Your Information
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>We use the information we collect to:</p>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>Respond to your inquiries and provide customer support</li>
@@ -87,10 +86,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 3 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     3. Information Sharing
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       We do not sell, trade, or otherwise transfer your personal information
                       to third parties without your consent, except:
@@ -113,10 +112,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 4 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     4. Data Security
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       We implement appropriate security measures to protect your personal
                       information against unauthorized access, alteration, disclosure, or
@@ -128,10 +127,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 5 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     5. Your Rights
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       In accordance with the Protection of Personal Information Act (POPIA),
                       you have the right to:
@@ -148,10 +147,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 6 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     6. Cookies
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       Our website may use cookies to enhance your browsing experience.
                       Cookies are small files stored on your device that help us understand
@@ -163,10 +162,10 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 7 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     7. Changes to This Policy
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       We may update this privacy policy from time to time. Any changes
                       will be posted on this page with an updated revision date.
@@ -176,18 +175,18 @@ export default function PrivacyPolicyPage() {
 
                 {/* Section 8 */}
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-espresso mb-4">
+                  <h2 className="font-display text-2xl font-bold text-cream mb-4">
                     8. Contact Us
                   </h2>
-                  <div className="text-warm-600 space-y-4">
+                  <div className="text-stone-400 space-y-4">
                     <p>
                       If you have any questions about this privacy policy or our data
                       practices, please contact us:
                     </p>
-                    <div className="bg-ivory-200 p-6 rounded-xl">
-                      <p className="font-semibold text-espresso mb-2">{siteConfig.fullName}</p>
-                      <p>Email: <a href={`mailto:${siteConfig.email}`} className="text-bronze-600 hover:text-bronze-700">{siteConfig.email}</a></p>
-                      <p>Phone: <a href={`tel:${siteConfig.phone}`} className="text-bronze-600 hover:text-bronze-700">{siteConfig.phone}</a></p>
+                    <div className="p-6 card-noir">
+                      <p className="font-semibold text-cream mb-2">{siteConfig.fullName}</p>
+                      <p>Email: <a href={`mailto:${siteConfig.email}`} className="text-amber-500 hover:text-amber-400">{siteConfig.email}</a></p>
+                      <p>Phone: <a href={`tel:${siteConfig.phone}`} className="text-amber-500 hover:text-amber-400">{siteConfig.phone}</a></p>
                     </div>
                   </div>
                 </div>
@@ -195,10 +194,10 @@ export default function PrivacyPolicyPage() {
             </div>
 
             {/* Back Link */}
-            <div className="mt-12 pt-8 border-t border-espresso/10">
+            <div className="mt-12 pt-8 border-t border-stone-800/50">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 text-bronze-600 font-semibold hover:text-bronze-700 transition-colors"
+                className="inline-flex items-center gap-2 text-amber-500 font-semibold hover:text-amber-400 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />

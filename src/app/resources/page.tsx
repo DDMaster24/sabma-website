@@ -186,20 +186,19 @@ export default function ResourcesPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 bg-espresso overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-espresso via-espresso-100 to-espresso" />
-        <div className="absolute top-20 right-20 w-96 h-96 bg-bronze-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-bronze-500/5 rounded-full blur-2xl" />
+      <section className="relative py-24 lg:py-32 mesh-spotlight overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-amber-600/5 rounded-full blur-2xl" />
 
         <div className="container-custom relative">
           <div className="max-w-3xl">
-            <span className="inline-block text-bronze-400 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               Knowledge Base
             </span>
-            <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-ivory-100 mb-6">
-              Resources
+            <h1 className="heading-display text-cream mb-6">
+              <span className="text-gradient-amber">Resources</span>
             </h1>
-            <p className="text-xl text-ivory-400 leading-relaxed">
+            <p className="text-xl text-stone-400 leading-relaxed">
               Access valuable information about the South African Black Mastiff
               breed - from health guides to training tips.
             </p>
@@ -208,39 +207,39 @@ export default function ResourcesPage() {
       </section>
 
       {/* Resources Grid */}
-      <section className="section-padding bg-ivory">
+      <section className="section-padding bg-noir">
         <div className="container-custom">
           {resources.map((section) => (
             <div key={section.category} className="mb-16 last:mb-0">
-              <h2 className="font-display text-2xl font-bold text-espresso mb-8 flex items-center gap-3">
-                <span className="w-8 h-px bg-bronze-500" />
+              <h2 className="font-display text-2xl font-bold text-cream mb-8 flex items-center gap-3">
+                <span className="w-8 h-px bg-amber-500" />
                 {section.category}
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {section.items.map((item) => (
                   <div
                     key={item.title}
-                    className={`group p-6 bg-white rounded-2xl border transition-all duration-300 ${
+                    className={`group p-6 card-noir ${
                       item.available
-                        ? "border-bronze-200 hover:border-bronze-400 hover:shadow-lg cursor-pointer"
-                        : "border-espresso/5 hover:border-espresso/10"
+                        ? "cursor-pointer"
+                        : ""
                     }`}
                   >
                     <div
                       className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 ${
                         item.available
-                          ? "bg-bronze-400/10 text-bronze-600 group-hover:bg-bronze-500 group-hover:text-white"
-                          : "bg-warm-100 text-warm-400"
+                          ? "bg-amber-500/10 border border-amber-500/20 text-amber-500 group-hover:bg-amber-500 group-hover:text-noir"
+                          : "bg-stone-800/50 border border-stone-700/50 text-stone-500"
                       }`}
                     >
                       {icons[item.icon]}
                     </div>
                     <h3 className={`font-display text-lg font-semibold mb-2 ${
-                      item.available ? "text-espresso" : "text-warm-600"
+                      item.available ? "text-cream" : "text-stone-400"
                     }`}>
                       {item.title}
                     </h3>
-                    <p className="text-warm-500 text-sm leading-relaxed mb-4">
+                    <p className="text-stone-500 text-sm leading-relaxed mb-4">
                       {item.description}
                     </p>
                     {item.available ? (
@@ -248,7 +247,7 @@ export default function ResourcesPage() {
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-bronze-600 font-medium text-sm group-hover:text-bronze-700"
+                        className="inline-flex items-center gap-2 text-amber-500 font-medium text-sm group-hover:text-amber-400"
                       >
                         Download PDF
                         <svg
@@ -266,7 +265,7 @@ export default function ResourcesPage() {
                         </svg>
                       </a>
                     ) : (
-                      <span className="inline-flex items-center gap-2 text-warm-400 text-sm">
+                      <span className="inline-flex items-center gap-2 text-stone-500 text-sm">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -282,25 +281,25 @@ export default function ResourcesPage() {
       </section>
 
       {/* Quick Links Section */}
-      <section className="section-padding bg-ivory-200">
+      <section className="section-padding bg-charcoal">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-8">
             {/* For New Owners */}
-            <div className="p-8 bg-white rounded-2xl border border-espresso/5">
-              <div className="w-14 h-14 bg-bronze-400/10 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-bronze-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-8 card-noir">
+              <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="font-display text-xl font-bold text-espresso mb-3">
+              <h3 className="font-display text-xl font-bold text-cream mb-3">
                 New to Black Mastiffs?
               </h3>
-              <p className="text-warm-600 mb-6">
+              <p className="text-stone-400 mb-6">
                 Start your journey with our comprehensive guide on buying a puppy from an accredited breeder.
               </p>
               <Link
                 href="/buying-a-puppy"
-                className="inline-flex items-center gap-2 text-bronze-600 font-semibold hover:text-bronze-700 transition-colors"
+                className="inline-flex items-center gap-2 text-amber-500 font-semibold hover:text-amber-400 transition-colors"
               >
                 Read the Puppy Guide
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,22 +309,22 @@ export default function ResourcesPage() {
             </div>
 
             {/* Find a Breeder */}
-            <div className="p-8 bg-white rounded-2xl border border-espresso/5">
-              <div className="w-14 h-14 bg-bronze-400/10 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-bronze-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-8 card-noir">
+              <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="font-display text-xl font-bold text-espresso mb-3">
+              <h3 className="font-display text-xl font-bold text-cream mb-3">
                 Find an Accredited Breeder
               </h3>
-              <p className="text-warm-600 mb-6">
+              <p className="text-stone-400 mb-6">
                 Connect with SABMA-accredited breeders who maintain the highest standards for the breed.
               </p>
               <Link
                 href="/breeders"
-                className="inline-flex items-center gap-2 text-bronze-600 font-semibold hover:text-bronze-700 transition-colors"
+                className="inline-flex items-center gap-2 text-amber-500 font-semibold hover:text-amber-400 transition-colors"
               >
                 View Breeders
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -338,16 +337,19 @@ export default function ResourcesPage() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-espresso">
+      <section className="section-padding mesh-spotlight">
         <div className="container-custom text-center">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-ivory-100 mb-6">
-            Can&apos;t Find What You&apos;re Looking For?
+          <h2 className="heading-section text-cream mb-6">
+            Can&apos;t Find What You&apos;re <span className="text-gradient-amber">Looking For?</span>
           </h2>
-          <p className="text-xl text-ivory-400 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-400 mb-8 max-w-2xl mx-auto">
             Our team is here to help. Reach out with any questions about the breed.
           </p>
           <Link href="/contact" className="btn-primary">
-            Contact Us
+            <span>Contact Us</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         </div>
       </section>

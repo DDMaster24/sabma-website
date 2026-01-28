@@ -149,20 +149,19 @@ export default function BuyingAPuppyPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 bg-espresso overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-espresso via-espresso-100 to-espresso" />
-        <div className="absolute top-20 right-20 w-96 h-96 bg-bronze-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-bronze-500/5 rounded-full blur-2xl" />
+      <section className="relative py-24 lg:py-32 mesh-spotlight overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-amber-600/5 rounded-full blur-2xl" />
 
         <div className="container-custom relative">
           <div className="max-w-3xl">
-            <span className="inline-block text-bronze-400 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               Your Journey Starts Here
             </span>
-            <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-ivory-100 mb-6">
-              Buying a Puppy
+            <h1 className="heading-display text-cream mb-6">
+              Buying a <span className="text-gradient-amber">Puppy</span>
             </h1>
-            <p className="text-xl text-ivory-400 leading-relaxed">
+            <p className="text-xl text-stone-400 leading-relaxed">
               Everything you need to know about bringing a South African Black
               Mastiff into your family.
             </p>
@@ -171,16 +170,16 @@ export default function BuyingAPuppyPage() {
       </section>
 
       {/* Steps Section */}
-      <section className="section-padding bg-ivory">
+      <section className="section-padding bg-noir">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-bronze-600 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               The Process
             </span>
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-espresso mb-6">
-              Steps to Finding Your Puppy
+            <h2 className="heading-section text-cream mb-6">
+              Steps to Finding Your <span className="text-gradient-amber">Puppy</span>
             </h2>
-            <p className="text-warm-600">
+            <p className="text-stone-400">
               Follow these steps to ensure you find a healthy, well-bred puppy
               from a responsible breeder.
             </p>
@@ -190,24 +189,23 @@ export default function BuyingAPuppyPage() {
             {buyingSteps.map((item) => (
               <div
                 key={item.step}
-                className="relative p-8 bg-white rounded-2xl border border-espresso/5
-                         hover:border-bronze-300 hover:shadow-lg transition-all duration-300"
+                className="relative p-8 card-noir"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div
-                    className="w-12 h-12 bg-bronze-500 rounded-full flex items-center justify-center
-                              text-white font-display font-bold text-lg"
+                    className="w-12 h-12 bg-amber-600 rounded-full flex items-center justify-center
+                              text-noir font-display font-bold text-lg"
                   >
                     {item.step}
                   </div>
-                  <div className="w-10 h-10 bg-bronze-100 rounded-lg flex items-center justify-center text-bronze-600">
+                  <div className="w-10 h-10 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-center text-amber-500">
                     {item.icon}
                   </div>
                 </div>
-                <h3 className="font-display text-xl font-semibold text-espresso mb-2">
+                <h3 className="font-display text-xl font-semibold text-cream mb-2">
                   {item.title}
                 </h3>
-                <p className="text-warm-600 text-sm leading-relaxed">
+                <p className="text-stone-400 text-sm leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -217,16 +215,16 @@ export default function BuyingAPuppyPage() {
       </section>
 
       {/* What to Expect */}
-      <section className="section-padding bg-espresso">
+      <section className="section-padding mesh-spotlight">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-bronze-400 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               From Accredited Breeders
             </span>
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-ivory-100 mb-6">
-              What to Expect
+            <h2 className="heading-section text-cream mb-6">
+              What to <span className="text-gradient-amber">Expect</span>
             </h2>
-            <p className="text-ivory-400">
+            <p className="text-stone-400">
               When you purchase from a SABMA accredited breeder, you can expect
               the following standards.
             </p>
@@ -236,12 +234,12 @@ export default function BuyingAPuppyPage() {
             {whatToExpect.map((item) => (
               <div
                 key={item.title}
-                className="p-6 bg-espresso-100/50 rounded-xl border border-ivory-100/10"
+                className="p-6 card-noir"
               >
-                <h3 className="font-display text-lg font-semibold text-ivory-100 mb-2">
+                <h3 className="font-display text-lg font-semibold text-cream mb-2">
                   {item.title}
                 </h3>
-                <p className="text-ivory-400 text-sm leading-relaxed">
+                <p className="text-stone-400 text-sm leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -251,12 +249,12 @@ export default function BuyingAPuppyPage() {
       </section>
 
       {/* Important Notice */}
-      <section className="section-padding bg-bronze-50">
+      <section className="section-padding bg-charcoal">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="w-16 h-16 bg-bronze-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg
-                className="w-8 h-8 text-bronze-600"
+                className="w-8 h-8 text-amber-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -269,17 +267,17 @@ export default function BuyingAPuppyPage() {
                 />
               </svg>
             </div>
-            <h2 className="font-display text-2xl lg:text-3xl font-bold text-espresso mb-4">
-              Important Notice
+            <h2 className="heading-section text-cream mb-4">
+              Important <span className="text-gradient-amber">Notice</span>
             </h2>
-            <p className="text-warm-600 mb-6">
+            <p className="text-stone-400 mb-6">
               The South African Black Mastiff is a powerful breed that requires
               responsible ownership. They need proper training, socialization, and
               a committed owner who understands large breed management. Please
               ensure you are prepared for this responsibility before purchasing a
               puppy.
             </p>
-            <p className="text-warm-700 font-medium">
+            <p className="text-cream font-medium">
               Only purchase from SABMA accredited breeders to ensure you receive a
               healthy, well-bred puppy with proper documentation.
             </p>
@@ -288,31 +286,25 @@ export default function BuyingAPuppyPage() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-gradient-to-br from-bronze-500 via-bronze-600 to-bronze-500">
-        <div className="container-custom text-center">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-6">
-            Ready to Find Your Puppy?
+      <section className="section-padding bg-noir relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-transparent to-transparent" />
+        <div className="container-custom text-center relative">
+          <h2 className="heading-section text-cream mb-6">
+            Ready to Find Your <span className="text-gradient-amber">Puppy?</span>
           </h2>
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-400 mb-8 max-w-2xl mx-auto">
             Browse our directory of accredited breeders or contact us for
             assistance in finding the perfect puppy.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/breeders"
-              className="inline-flex items-center justify-center px-8 py-4 bg-espresso
-                       text-white font-semibold rounded-full transition-all duration-300
-                       hover:-translate-y-0.5 hover:shadow-xl"
-            >
-              View Breeders
+            <Link href="/breeders" className="btn-primary">
+              <span>View Breeders</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/20
-                       text-white font-semibold rounded-full border-2 border-white/30
-                       transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/30"
-            >
-              Contact Us
+            <Link href="/contact" className="btn-secondary">
+              <span>Contact Us</span>
             </Link>
           </div>
         </div>

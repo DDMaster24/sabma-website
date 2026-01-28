@@ -51,10 +51,10 @@ const events = [
 ];
 
 const eventTypeColors: Record<string, string> = {
-  Appraisal: "bg-bronze-100 text-bronze-700",
-  Meeting: "bg-blue-100 text-blue-700",
-  Seminar: "bg-green-100 text-green-700",
-  Show: "bg-purple-100 text-purple-700",
+  Appraisal: "bg-amber-500/10 text-amber-400 border border-amber-500/30",
+  Meeting: "bg-blue-500/10 text-blue-400 border border-blue-500/30",
+  Seminar: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30",
+  Show: "bg-purple-500/10 text-purple-400 border border-purple-500/30",
 };
 
 function formatDate(dateString: string) {
@@ -76,20 +76,19 @@ export default function CalendarPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative py-24 lg:py-32 bg-espresso overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-espresso via-espresso-100 to-espresso" />
-        <div className="absolute top-20 right-20 w-96 h-96 bg-bronze-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-64 h-64 bg-bronze-500/5 rounded-full blur-2xl" />
+      <section className="relative py-24 lg:py-32 mesh-spotlight overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-amber-600/5 rounded-full blur-2xl" />
 
         <div className="container-custom relative">
           <div className="max-w-3xl">
-            <span className="inline-block text-bronze-400 font-semibold tracking-wider uppercase text-sm mb-4">
+            <span className="label-micro mb-4 block">
               Events
             </span>
-            <h1 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-ivory-100 mb-6">
-              Calendar
+            <h1 className="heading-display text-cream mb-6">
+              <span className="text-gradient-amber">Calendar</span>
             </h1>
-            <p className="text-xl text-ivory-400 leading-relaxed">
+            <p className="text-xl text-stone-400 leading-relaxed">
               Stay updated with SABMA events, appraisals, shows, and seminars
               throughout the year.
             </p>
@@ -98,10 +97,11 @@ export default function CalendarPage() {
       </section>
 
       {/* Events List */}
-      <section className="section-padding bg-ivory">
+      <section className="section-padding bg-noir">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <h2 className="font-display text-2xl font-bold text-espresso mb-8">
+            <h2 className="font-display text-2xl font-bold text-cream mb-8 flex items-center gap-3">
+              <span className="w-8 h-px bg-amber-500" />
               Upcoming Events
             </h2>
 
@@ -111,19 +111,18 @@ export default function CalendarPage() {
                 return (
                   <div
                     key={event.id}
-                    className="flex gap-6 p-6 bg-white rounded-2xl border border-espresso/5
-                             hover:border-bronze-300 hover:shadow-lg transition-all duration-300"
+                    className="flex gap-6 p-6 card-noir"
                   >
                     {/* Date badge */}
                     <div className="flex-shrink-0 w-20 text-center">
-                      <div className="bg-bronze-500 text-white rounded-t-lg py-1 text-xs font-semibold">
+                      <div className="bg-amber-600 text-noir rounded-t-lg py-1 text-xs font-semibold">
                         {date.month}
                       </div>
-                      <div className="bg-ivory-100 rounded-b-lg py-2 border border-t-0 border-espresso/10">
-                        <div className="font-display text-2xl font-bold text-espresso">
+                      <div className="bg-charcoal rounded-b-lg py-2 border border-t-0 border-stone-800/50">
+                        <div className="font-display text-2xl font-bold text-cream">
                           {date.day}
                         </div>
-                        <div className="text-xs text-warm-500">{date.year}</div>
+                        <div className="text-xs text-stone-500">{date.year}</div>
                       </div>
                     </div>
 
@@ -132,24 +131,24 @@ export default function CalendarPage() {
                       <div className="flex flex-wrap items-center gap-3 mb-2">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${eventTypeColors[event.type] ||
-                            "bg-warm-100 text-warm-700"
+                            "bg-stone-500/10 text-stone-400 border border-stone-500/30"
                             }`}
                         >
                           {event.type}
                         </span>
-                        <span className="text-sm text-warm-500">
+                        <span className="text-sm text-stone-500">
                           {event.time}
                         </span>
                       </div>
-                      <h3 className="font-display text-xl font-semibold text-espresso mb-2">
+                      <h3 className="font-display text-xl font-semibold text-cream mb-2">
                         {event.title}
                       </h3>
-                      <p className="text-warm-600 text-sm mb-3">
+                      <p className="text-stone-400 text-sm mb-3">
                         {event.description}
                       </p>
-                      <div className="flex items-center gap-2 text-sm text-warm-500">
+                      <div className="flex items-center gap-2 text-sm text-stone-500">
                         <svg
-                          className="w-4 h-4"
+                          className="w-4 h-4 text-amber-500"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -179,22 +178,21 @@ export default function CalendarPage() {
       </section>
 
       {/* Subscribe CTA */}
-      <section className="section-padding bg-gradient-to-br from-bronze-500 via-bronze-600 to-bronze-500">
-        <div className="container-custom text-center">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-6">
-            Never Miss an Event
+      <section className="section-padding bg-charcoal relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-transparent to-transparent" />
+        <div className="container-custom text-center relative">
+          <h2 className="heading-section text-cream mb-6">
+            Never Miss an <span className="text-gradient-amber">Event</span>
           </h2>
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-stone-400 mb-8 max-w-2xl mx-auto">
             Subscribe to our newsletter to receive updates about upcoming events,
             appraisals, and SABMA news.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center px-8 py-4 bg-espresso
-                     text-white font-semibold rounded-full transition-all duration-300
-                     hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            Subscribe to Updates
+          <Link href="/contact" className="btn-primary">
+            <span>Subscribe to Updates</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         </div>
       </section>

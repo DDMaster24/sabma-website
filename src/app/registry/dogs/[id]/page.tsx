@@ -14,8 +14,6 @@ import {
 import { prisma } from '@/lib/prisma'
 import { formatDate, calculateAge } from '@/lib/utils'
 import { PedigreeTree } from '@/components/registry/PedigreeTree'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 
 interface PageProps {
   params: { id: string }
@@ -63,33 +61,47 @@ export default async function DogDetailPage({ params }: PageProps) {
   const offspring = [...dog.sireChildren, ...dog.damChildren]
 
   return (
-    <div className="min-h-screen bg-ivory">
+    <div className="min-h-screen bg-noir">
       {/* Header */}
-      <div className="bg-espresso text-ivory py-12 md:py-16">
-        <div className="container-custom">
+      <div className="relative py-12 md:py-16 overflow-hidden">
+        <div className="absolute inset-0 mesh-spotlight" />
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+
+        <div className="container-custom relative">
           {/* Back Button */}
-          <Link href="/registry/dogs" className="inline-flex items-center text-ivory/70 hover:text-ivory mb-6 transition-colors">
+          <Link
+            href="/registry/dogs"
+            className="inline-flex items-center text-stone-400 hover:text-amber-500 mb-6 transition-colors"
+          >
             <ChevronLeft className="w-5 h-5 mr-1" />
             Back to Registry
           </Link>
 
           <div className="flex flex-col md:flex-row md:items-start gap-6">
             <div className="flex-1">
-              <span className="label mb-4">{dog.sex === 'MALE' ? 'Male' : 'Female'}</span>
-              <h1 className="font-display text-display-md md:text-display-lg font-light mb-2">
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-xs font-semibold border mb-4 ${
+                  dog.sex === 'MALE'
+                    ? 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+                    : 'bg-pink-500/10 text-pink-400 border-pink-500/30'
+                }`}
+              >
+                {dog.sex === 'MALE' ? 'Male' : 'Female'}
+              </span>
+              <h1 className="heading-display text-cream mb-2">
                 {dog.registeredName}
               </h1>
               {dog.registrationNumber && (
-                <p className="text-ivory/60 text-lg">{dog.registrationNumber}</p>
+                <p className="text-stone-500 text-lg">{dog.registrationNumber}</p>
               )}
-              <div className="flex flex-wrap gap-4 mt-4 text-ivory/70">
+              <div className="flex flex-wrap gap-4 mt-4 text-stone-400">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-4 h-4 text-amber-500/60" />
                   {formatDate(dog.dateOfBirth)} ({calculateAge(dog.dateOfBirth)})
                 </span>
                 {dog.kennel && (
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-4 h-4" />
+                    <MapPin className="w-4 h-4 text-amber-500/60" />
                     {dog.kennel.name}
                   </span>
                 )}
@@ -105,8 +117,8 @@ export default async function DogDetailPage({ params }: PageProps) {
           {/* Left Column - Photo & Info */}
           <div className="space-y-6">
             {/* Photo */}
-            <Card className="overflow-hidden">
-              <div className="aspect-square relative bg-warm-100">
+            <div className="card-noir overflow-hidden">
+              <div className="aspect-square relative bg-gradient-to-br from-charcoal to-noir">
                 {primaryPhoto?.url ? (
                   <Image
                     src={primaryPhoto.url}
@@ -116,11 +128,11 @@ export default async function DogDetailPage({ params }: PageProps) {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <DogIcon className="w-24 h-24 text-warm-300" />
+                    <DogIcon className="w-24 h-24 text-stone-700" />
                   </div>
                 )}
               </div>
-            </Card>
+            </div>
 
             {/* Photo Gallery */}
             {dog.photos.length > 1 && (
@@ -128,7 +140,7 @@ export default async function DogDetailPage({ params }: PageProps) {
                 {dog.photos.slice(0, 8).map((photo) => (
                   <div
                     key={photo.id}
-                    className="aspect-square relative rounded-lg overflow-hidden bg-warm-100"
+                    className="aspect-square relative rounded-lg overflow-hidden bg-charcoal"
                   >
                     <Image
                       src={photo.url}
@@ -142,14 +154,12 @@ export default async function DogDetailPage({ params }: PageProps) {
             )}
 
             {/* Basic Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Hash className="w-5 h-5 text-bronze-600" />
-                  Basic Information
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <div className="card-noir p-6">
+              <h3 className="flex items-center gap-2 font-display text-lg font-medium text-cream mb-4">
+                <Hash className="w-5 h-5 text-amber-500" />
+                Basic Information
+              </h3>
+              <div className="space-y-3">
                 <InfoRow label="Sex" value={dog.sex === 'MALE' ? 'Male' : 'Female'} />
                 <InfoRow label="Date of Birth" value={formatDate(dog.dateOfBirth)} />
                 <InfoRow label="Age" value={calculateAge(dog.dateOfBirth)} />
@@ -163,24 +173,22 @@ export default async function DogDetailPage({ params }: PageProps) {
                 {dog.registryName && (
                   <InfoRow label="Registry" value={dog.registryName} />
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Breeder & Owner */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-bronze-600" />
-                  Breeder & Owner
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <div className="card-noir p-6">
+              <h3 className="flex items-center gap-2 font-display text-lg font-medium text-cream mb-4">
+                <MapPin className="w-5 h-5 text-amber-500" />
+                Breeder & Owner
+              </h3>
+              <div className="space-y-3">
                 {dog.kennel && (
                   <div>
-                    <span className="text-sm text-warm-500">Kennel</span>
+                    <span className="text-sm text-stone-500">Kennel</span>
                     <Link
                       href={`/registry/kennels/${dog.kennel.id}`}
-                      className="block text-espresso font-medium hover:text-bronze-600 transition-colors"
+                      className="block text-cream font-medium hover:text-amber-400 transition-colors"
                     >
                       {dog.kennel.name}
                     </Link>
@@ -192,25 +200,23 @@ export default async function DogDetailPage({ params }: PageProps) {
                 {dog.currentOwner && (
                   <InfoRow label="Current Owner" value={dog.currentOwner} />
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Health & Appraisal */}
             {(dog.appraisalScore || dog.hipScore || dog.elbowScore || dog.dnaVerified) && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-bronze-600" />
-                    Health & Appraisal
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
+              <div className="card-noir p-6">
+                <h3 className="flex items-center gap-2 font-display text-lg font-medium text-cream mb-4">
+                  <Heart className="w-5 h-5 text-amber-500" />
+                  Health & Appraisal
+                </h3>
+                <div className="space-y-3">
                   {dog.appraisalScore && (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-warm-500">Appraisal Score</span>
+                      <span className="text-sm text-stone-500">Appraisal Score</span>
                       <span className="flex items-center gap-2">
-                        <Award className="w-4 h-4 text-bronze-600" />
-                        <span className="font-semibold text-bronze-700">
+                        <Award className="w-4 h-4 text-amber-500" />
+                        <span className="font-semibold text-amber-400">
                           {dog.appraisalScore}
                         </span>
                       </span>
@@ -222,7 +228,7 @@ export default async function DogDetailPage({ params }: PageProps) {
                   {dog.hipScore && <InfoRow label="Hip Score" value={dog.hipScore} />}
                   {dog.elbowScore && <InfoRow label="Elbow Score" value={dog.elbowScore} />}
                   {dog.dnaVerified && (
-                    <div className="flex items-center gap-2 text-green-600">
+                    <div className="flex items-center gap-2 text-emerald-400">
                       <Dna className="w-4 h-4" />
                       <span className="text-sm font-medium">DNA Verified</span>
                     </div>
@@ -233,134 +239,123 @@ export default async function DogDetailPage({ params }: PageProps) {
                       value={`${dog.inbreedingCoefficient.toFixed(2)}%`}
                     />
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
           </div>
 
           {/* Right Column - Pedigree & Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Pedigree Tree */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Pedigree (3 Generations)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <PedigreeTree dog={dog} />
-              </CardContent>
-            </Card>
+            <div className="card-noir p-6">
+              <h3 className="font-display text-lg font-medium text-cream mb-4">
+                Pedigree (3 Generations)
+              </h3>
+              <PedigreeTree dog={dog} />
+            </div>
 
             {/* Parents */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Sire */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-blue-700">Sire (Father)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {dog.sire ? (
-                    <Link
-                      href={`/registry/dogs/${dog.sire.id}`}
-                      className="group"
-                    >
-                      <p className="font-medium text-espresso group-hover:text-bronze-600 transition-colors">
-                        {dog.sire.registeredName}
-                      </p>
-                    </Link>
-                  ) : (
-                    <p className="text-warm-500">Unknown</p>
-                  )}
-                </CardContent>
-              </Card>
+              <div className="card-noir p-6">
+                <h3 className="text-blue-400 font-medium mb-3">Sire (Father)</h3>
+                {dog.sire ? (
+                  <Link
+                    href={`/registry/dogs/${dog.sire.id}`}
+                    className="group"
+                  >
+                    <p className="font-medium text-cream group-hover:text-amber-400 transition-colors">
+                      {dog.sire.registeredName}
+                    </p>
+                  </Link>
+                ) : (
+                  <p className="text-stone-500">Unknown</p>
+                )}
+              </div>
 
               {/* Dam */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-pink-700">Dam (Mother)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {dog.dam ? (
-                    <Link
-                      href={`/registry/dogs/${dog.dam.id}`}
-                      className="group"
-                    >
-                      <p className="font-medium text-espresso group-hover:text-bronze-600 transition-colors">
-                        {dog.dam.registeredName}
-                      </p>
-                    </Link>
-                  ) : (
-                    <p className="text-warm-500">Unknown</p>
-                  )}
-                </CardContent>
-              </Card>
+              <div className="card-noir p-6">
+                <h3 className="text-pink-400 font-medium mb-3">Dam (Mother)</h3>
+                {dog.dam ? (
+                  <Link
+                    href={`/registry/dogs/${dog.dam.id}`}
+                    className="group"
+                  >
+                    <p className="font-medium text-cream group-hover:text-amber-400 transition-colors">
+                      {dog.dam.registeredName}
+                    </p>
+                  </Link>
+                ) : (
+                  <p className="text-stone-500">Unknown</p>
+                )}
+              </div>
             </div>
 
             {/* Offspring */}
             {offspring.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Offspring ({offspring.length})</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {offspring.map((child) => (
-                      <Link
-                        key={child.id}
-                        href={`/registry/dogs/${child.id}`}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-warm-50 hover:bg-bronze-50 transition-colors"
-                      >
-                        <span
-                          className={`w-2 h-2 rounded-full ${
-                            child.sex === 'MALE' ? 'bg-blue-500' : 'bg-pink-500'
-                          }`}
-                        />
-                        <span className="text-sm font-medium text-espresso">
-                          {child.registeredName}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="card-noir p-6">
+                <h3 className="font-display text-lg font-medium text-cream mb-4">
+                  Offspring ({offspring.length})
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {offspring.map((child) => (
+                    <Link
+                      key={child.id}
+                      href={`/registry/dogs/${child.id}`}
+                      className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-amber-500/10 transition-colors"
+                    >
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          child.sex === 'MALE' ? 'bg-blue-500' : 'bg-pink-500'
+                        }`}
+                      />
+                      <span className="text-sm font-medium text-cream">
+                        {child.registeredName}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             )}
 
             {/* Notes */}
             {(dog.markings || dog.healthNotes || dog.notes) && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Additional Notes</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <div className="card-noir p-6">
+                <h3 className="font-display text-lg font-medium text-cream mb-4">
+                  Additional Notes
+                </h3>
+                <div className="space-y-4">
                   {dog.markings && (
                     <div>
-                      <h4 className="text-sm font-medium text-warm-500 mb-1">Markings</h4>
-                      <p className="text-espresso">{dog.markings}</p>
+                      <h4 className="text-sm font-medium text-stone-500 mb-1">Markings</h4>
+                      <p className="text-cream">{dog.markings}</p>
                     </div>
                   )}
                   {dog.healthNotes && (
                     <div>
-                      <h4 className="text-sm font-medium text-warm-500 mb-1">Health Notes</h4>
-                      <p className="text-espresso">{dog.healthNotes}</p>
+                      <h4 className="text-sm font-medium text-stone-500 mb-1">Health Notes</h4>
+                      <p className="text-cream">{dog.healthNotes}</p>
                     </div>
                   )}
                   {dog.notes && (
                     <div>
-                      <h4 className="text-sm font-medium text-warm-500 mb-1">Notes</h4>
-                      <p className="text-espresso">{dog.notes}</p>
+                      <h4 className="text-sm font-medium text-stone-500 mb-1">Notes</h4>
+                      <p className="text-cream">{dog.notes}</p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )}
 
             {/* Back Button */}
             <div className="pt-6">
-              <Button variant="outline" asChild>
-                <Link href="/registry/dogs">
-                  <ChevronLeft className="w-4 h-4 mr-2" />
-                  Back to Registry
-                </Link>
-              </Button>
+              <Link
+                href="/registry/dogs"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-cream hover:bg-white/5 transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back to Registry
+              </Link>
             </div>
           </div>
         </div>
@@ -372,8 +367,8 @@ export default async function DogDetailPage({ params }: PageProps) {
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between">
-      <span className="text-sm text-warm-500">{label}</span>
-      <span className="text-sm font-medium text-espresso">{value}</span>
+      <span className="text-sm text-stone-500">{label}</span>
+      <span className="text-sm font-medium text-cream">{value}</span>
     </div>
   )
 }
