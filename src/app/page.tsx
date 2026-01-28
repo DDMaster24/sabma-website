@@ -1,341 +1,453 @@
-import Link from "next/link";
-import {
-  breeders,
-  membershipBenefits,
-} from "@/data/content";
-import Reveal from "@/components/ui/Reveal";
+"use client";
 
-// Hero Section - Clean editorial layout: Header -> Subheading -> Photos -> Quick Access
+import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
+import { breeders, membershipBenefits } from "@/data/content";
+
+// ========================================
+// HOOKS
+// ========================================
+
+function useScrollReveal(threshold = 0.1) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold, rootMargin: "0px 0px -100px 0px" }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
+// ========================================
+// HERO SECTION - Dramatic Noir
+// ========================================
+
 function HeroSection() {
-  const quickLinks = [
-    {
-      name: "Find a Breeder",
-      href: "/breeders",
-      description: "Connect with accredited breeders",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )
-    },
-    {
-      name: "About SABMA",
-      href: "/about",
-      description: "Our mission and heritage",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
-    },
-    {
-      name: "Buying a Puppy",
-      href: "/buying-a-puppy",
-      description: "Your guide to finding the perfect companion",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-      )
-    },
-    {
-      name: "Stud Register",
-      href: "/stud-register",
-      description: "Browse registered studs",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      )
-    },
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 mesh-spotlight" />
+
+      {/* Ambient glow orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute top-[10%] right-[5%] w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 60%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        <div
+          className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(199, 123, 72, 0.08) 0%, transparent 60%)',
+            filter: 'blur(60px)',
+          }}
+        />
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(250,247,242,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(250,247,242,0.1) 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Content */}
+      <div className="container-wide relative z-10 py-20">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+          {/* Left - Text content */}
+          <div className={`transition-all duration-1000 delay-200 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+            {/* Registry badge */}
+            <div className="inline-flex items-center gap-3 mb-10">
+              <div className="w-px h-12 bg-gradient-to-b from-amber-500 to-transparent" />
+              <span className="label-micro">Official SA Registry</span>
+            </div>
+
+            {/* Main headline */}
+            <h1 className="heading-hero text-cream mb-8">
+              <span className="block">South</span>
+              <span className="block">African</span>
+              <span className="block text-gradient-amber">Black Mastiff</span>
+            </h1>
+
+            {/* Subheadline */}
+            <p className={`text-stone-400 text-xl lg:text-2xl leading-relaxed max-w-xl mb-12 transition-all duration-1000 delay-400 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              Preserving bloodlines. Certifying excellence.
+              <span className="block mt-2 text-stone-500 text-lg">
+                The definitive registry for South Africa&apos;s most distinguished breed.
+              </span>
+            </p>
+
+            {/* CTAs */}
+            <div className={`flex flex-wrap gap-4 transition-all duration-1000 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <Link href="/registry" className="btn-primary">
+                <span>Access Registry</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+              <Link href="/breeders" className="btn-secondary">
+                <span>Find Breeders</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right - Hero visual */}
+          <div className={`relative transition-all duration-1000 delay-300 ${isLoaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'}`}>
+            <div className="relative aspect-[4/5] max-w-lg mx-auto lg:ml-auto">
+              {/* Outer frame glow */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-amber-500/10 to-copper-500/5 rounded-2xl blur-2xl" />
+
+              {/* Main image container */}
+              <div className="relative h-full bg-gradient-to-br from-charcoal to-noir rounded-2xl overflow-hidden border border-stone-800/50">
+                {/* Placeholder content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-amber-500/10 flex items-center justify-center mb-6 border border-amber-500/20">
+                    <svg className="w-12 h-12 text-amber-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <span className="text-stone-500 font-medium">Hero Portrait</span>
+                  <span className="text-stone-600 text-sm mt-1">Majestic breed photography</span>
+                </div>
+
+                {/* Cinematic gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-noir via-transparent to-transparent" />
+
+                {/* Corner accents */}
+                <div className="absolute top-6 left-6 w-12 h-12">
+                  <div className="w-full h-px bg-amber-500/40" />
+                  <div className="w-px h-full bg-amber-500/40" />
+                </div>
+                <div className="absolute bottom-6 right-6 w-12 h-12">
+                  <div className="absolute bottom-0 w-full h-px bg-amber-500/40" />
+                  <div className="absolute right-0 w-px h-full bg-amber-500/40" />
+                </div>
+              </div>
+
+              {/* Floating info card */}
+              <div className="absolute -bottom-6 -left-6 lg:-left-12 card-noir p-6 max-w-[280px]">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="label-micro mb-1">Certified</div>
+                    <div className="font-display text-lg text-cream">Official Registry</div>
+                    <div className="text-sm text-stone-500 mt-1">Verified pedigrees & health</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 transition-all duration-1000 delay-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+        <span className="text-[10px] tracking-[0.3em] uppercase text-stone-600">Explore</span>
+        <div className="w-px h-12 bg-gradient-to-b from-amber-500/50 to-transparent" />
+      </div>
+    </section>
+  );
+}
+
+// ========================================
+// MARQUEE TICKER
+// ========================================
+
+function MarqueeTicker() {
+  const items = [
+    "Official Registry",
+    "Verified Pedigrees",
+    "Health Certified",
+    "Accredited Breeders",
+    "Breed Excellence",
+    "DNA Testing",
+    "Appraisal Events",
   ];
 
   return (
-    <section className="relative bg-ivory overflow-hidden">
-      {/* Subtle background texture */}
-      <div className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
-        }}
-      />
-
-      {/* Decorative gradient orbs */}
-      <div className="absolute top-20 right-[10%] w-[600px] h-[600px] rounded-full opacity-30 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-        }}
-      />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-20 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(184, 134, 11, 0.1) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-      />
-
-      <div className="container-custom relative z-10">
-        {/* Header and Subheading */}
-        <div className="pt-16 pb-12 lg:pt-24 lg:pb-16 text-center max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-3 mb-8">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-bronze-500 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-bronze-500" />
-            </span>
-            <span className="text-bronze-600 text-sm font-medium tracking-[0.2em] uppercase">
-              South Africa&apos;s Premier Breed Association
+    <div className="relative overflow-hidden bg-charcoal py-4 border-y border-stone-800/50">
+      <div className="flex animate-[marquee_30s_linear_infinite]">
+        {[...items, ...items].map((item, index) => (
+          <div key={index} className="flex items-center shrink-0 px-8">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500/60 mr-8" />
+            <span className="text-[11px] tracking-[0.2em] uppercase text-stone-500 whitespace-nowrap">
+              {item}
             </span>
           </div>
-
-          {/* Main Heading */}
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] mb-8 text-espresso">
-            The South African
-            <span className="block text-gradient mt-2">Black Mastiff</span>
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-warm-600 text-xl lg:text-2xl leading-relaxed max-w-2xl mx-auto">
-            Dedicated to promoting responsible breeding and upholding the standards of this majestic breed across South Africa.
-          </p>
-        </div>
-
-        {/* Photo Gallery - Asymmetric Grid */}
-        <div className="pb-16 lg:pb-20">
-          <div className="grid grid-cols-12 gap-4 lg:gap-6 max-w-6xl mx-auto">
-            {/* Large featured placeholder */}
-            <div className="col-span-12 md:col-span-7 relative">
-              <div className="relative aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl shadow-espresso/15 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
-                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
-              </div>
-            </div>
-
-            {/* Stacked smaller placeholders */}
-            <div className="col-span-12 md:col-span-5 grid grid-cols-2 md:grid-cols-1 gap-4 lg:gap-6">
-              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
-                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
-              </div>
-              <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
-                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Access Buttons */}
-        <div className="pb-20 lg:pb-28">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-6xl mx-auto">
-            {quickLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="group relative bg-white rounded-2xl p-6 lg:p-8 border border-warm-200
-                          shadow-sm hover:shadow-xl hover:shadow-bronze-500/10
-                          hover:border-bronze-300 hover:-translate-y-1
-                          transition-all duration-300 ease-out"
-              >
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-xl bg-bronze-50 flex items-center justify-center mb-5
-                              text-bronze-600 group-hover:bg-bronze-500 group-hover:text-white
-                              transition-all duration-300">
-                  {link.icon}
-                </div>
-
-                {/* Content */}
-                <h3 className="font-display text-xl font-medium text-espresso mb-2
-                             group-hover:text-bronze-700 transition-colors duration-300">
-                  {link.name}
-                </h3>
-                <p className="text-warm-500 text-sm leading-relaxed">
-                  {link.description}
-                </p>
-
-                {/* Arrow indicator */}
-                <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-warm-100
-                              flex items-center justify-center opacity-0 group-hover:opacity-100
-                              transition-all duration-300 group-hover:translate-x-1">
-                  <svg className="w-4 h-4 text-bronze-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
-
-      {/* Bottom decorative line */}
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze-300/50 to-transparent" />
-    </section>
+    </div>
   );
 }
 
-// About Preview Section
+// ========================================
+// ABOUT SECTION - Editorial Style
+// ========================================
+
 function AboutSection() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="section-padding bg-ivory-200 relative overflow-hidden noise-overlay">
-      {/* Background accents */}
+    <section className="relative section-padding bg-noir overflow-hidden">
+      {/* Background accent */}
       <div className="absolute top-0 right-0 w-1/2 h-full"
         style={{
-          background: 'radial-gradient(ellipse 100% 100% at 100% 0%, rgba(160, 120, 60, 0.04) 0%, transparent 50%)',
+          background: 'radial-gradient(ellipse 80% 60% at 100% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 50%)',
         }}
       />
 
-      <div className="container-custom relative">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Image Placeholder */}
-          <div className="relative">
+      <div ref={ref} className="container-custom relative">
+        <div className="grid lg:grid-cols-12 gap-16 items-center">
+          {/* Left - Image */}
+          <div className={`lg:col-span-5 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
             <div className="relative">
-              {/* Background shape */}
-              <div className="absolute -inset-8 lg:-inset-12 bg-gradient-to-br from-bronze-400/5 to-transparent rounded-3xl" />
+              {/* Image frame */}
+              <div className="relative aspect-[3/4] bg-gradient-to-br from-charcoal to-noir rounded-lg overflow-hidden border border-stone-800/50">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-stone-600 font-medium">Heritage Image</span>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-noir/60 via-transparent to-transparent" />
 
-              {/* Placeholder */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-espresso/15 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
-                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
+                {/* Inner border */}
+                <div className="absolute inset-4 border border-amber-500/10 rounded" />
+              </div>
+
+              {/* Registry stamp */}
+              <div className="absolute -bottom-8 -right-4 lg:-right-8">
+                <div className="relative w-28 h-28 flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border-2 border-amber-500/30 animate-[spin_30s_linear_infinite]" />
+                  <div className="absolute inset-3 rounded-full border border-amber-500/20" />
+                  <div className="text-center transform -rotate-12">
+                    <div className="text-[8px] font-semibold tracking-[0.15em] uppercase text-amber-600">Official</div>
+                    <div className="font-display text-lg text-amber-500 font-medium leading-none">SABMA</div>
+                    <div className="text-[8px] font-semibold tracking-[0.15em] uppercase text-amber-600">Registry</div>
+                  </div>
+                </div>
               </div>
 
               {/* Decorative corner */}
-              <div className="absolute -top-4 -left-4 w-24 h-24">
-                <div className="w-full h-px bg-gradient-to-r from-bronze-500 to-transparent" />
-                <div className="w-px h-full bg-gradient-to-b from-bronze-500 to-transparent" />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24">
-                <div className="absolute bottom-0 w-full h-px bg-gradient-to-l from-bronze-500 to-transparent" />
-                <div className="absolute right-0 w-px h-full bg-gradient-to-t from-bronze-500 to-transparent" />
-              </div>
+              <div className="absolute -top-4 -left-4 w-20 h-px bg-gradient-to-r from-amber-500/50 to-transparent" />
+              <div className="absolute -top-4 -left-4 w-px h-20 bg-gradient-to-b from-amber-500/50 to-transparent" />
             </div>
           </div>
 
-          {/* Content */}
-          <Reveal animation="fade-in-up" delay={200}>
-            <span className="label mb-6">About SABMA</span>
-            <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-light text-espresso mb-8 leading-tight">
-              Our Mission &<br />
-              <span className="text-gradient">Heritage</span>
+          {/* Right - Content */}
+          <div className={`lg:col-span-7 lg:pl-8 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
+            <div className="inline-flex items-center gap-3 mb-8">
+              <div className="w-12 h-px bg-amber-500/50" />
+              <span className="label-micro">Our Heritage</span>
+            </div>
+
+            <h2 className="heading-display text-cream mb-8">
+              Guardians of an
+              <br />
+              <span className="text-gradient-amber">Exceptional Lineage</span>
             </h2>
-            <div className="space-y-6 text-warm-600 text-lg leading-relaxed">
+
+            <div className="space-y-6 text-stone-400 text-lg leading-relaxed mb-10">
               <p>
-                At the South African Mastiff Breed Council, we are dedicated to
-                promoting responsible breeding and upholding the standards of the
-                black mastiff breed in South Africa.
+                The South African Mastiff Breed Council stands as the premier authority
+                for Black Mastiff registration, certification, and breed preservation
+                in Southern Africa.
               </p>
               <p>
-                Our association is made up of passionate and knowledgeable
-                breeders who are committed to maintaining the health, temperament,
-                and conformation of this majestic breed.
+                Our rigorous standards ensure every registered dog meets the highest
+                benchmarks for health, temperament, and breed conformation.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-10">
+            {/* Trust indicators */}
+            <div className="flex flex-wrap gap-3 mb-10">
+              <div className="badge-verified">
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Verified Pedigrees
+              </div>
+              <div className="badge-amber">
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Health Certified
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
               <Link href="/about" className="btn-primary">
-                <span>Learn More</span>
+                <span>Our Story</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </Link>
-              <Link href="/council" className="btn-secondary">
-                <span>Meet The Council</span>
+              <Link href="/council" className="btn-outline-amber">
+                <span>Meet the Council</span>
               </Link>
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-// Membership Benefits Section
+// ========================================
+// STATS SECTION - Big Numbers
+// ========================================
+
+function StatsSection() {
+  const { ref, isVisible } = useScrollReveal();
+
+  const stats = [
+    { number: "500+", label: "Registered Dogs" },
+    { number: "25+", label: "Accredited Breeders" },
+    { number: "15", label: "Years of Excellence" },
+    { number: "100%", label: "Health Verified" },
+  ];
+
+  return (
+    <section className="relative py-20 lg:py-24 bg-charcoal overflow-hidden">
+      {/* Top/bottom lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
+
+      <div ref={ref} className="container-custom">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              className={`text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <div className="stat-number text-gradient-amber">{stat.number}</div>
+              <div className="text-stone-500 text-sm tracking-wide mt-2">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ========================================
+// BENEFITS SECTION - Glass Cards
+// ========================================
+
 function BenefitsSection() {
+  const { ref, isVisible } = useScrollReveal();
+
   const icons: Record<string, React.ReactNode> = {
     directory: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
       </svg>
     ),
     education: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
     ),
     events: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
       </svg>
     ),
     community: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
       </svg>
     ),
   };
 
   return (
-    <section className="section-padding bg-ivory relative overflow-hidden">
-      {/* Background patterns */}
-      <div className="absolute inset-0"
-        style={{
-          background: `
-            radial-gradient(ellipse 50% 50% at 0% 50%, rgba(160, 120, 60, 0.04) 0%, transparent 50%),
-            radial-gradient(ellipse 50% 50% at 100% 50%, rgba(160, 120, 60, 0.03) 0%, transparent 50%)
-          `
-        }}
-      />
+    <section className="relative section-padding bg-noir overflow-hidden">
+      {/* Background mesh */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(217, 119, 6, 0.08) 0%, transparent 60%)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
 
-      {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(44, 36, 24, 0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(44, 36, 24, 0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
-        }}
-      />
-
-      <div className="container-custom relative">
+      <div ref={ref} className="container-custom relative">
         {/* Section header */}
-        <Reveal className="section-header" animation="fade-in-up">
-          <span className="label mb-6">Why Join SABMA</span>
-          <h2>Membership <span className="text-gradient">Benefits</span></h2>
-          <p>
-            Become part of South Africa&apos;s premier black mastiff community and
-            enjoy exclusive benefits that elevate your breeding journey.
+        <div className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <div className="inline-flex items-center gap-3 mb-8">
+            <div className="w-12 h-px bg-amber-500/50" />
+            <span className="label-micro">Membership</span>
+            <div className="w-12 h-px bg-amber-500/50" />
+          </div>
+
+          <h2 className="heading-display text-cream mb-6">
+            Exclusive Member
+            <br />
+            <span className="text-gradient-amber">Benefits</span>
+          </h2>
+
+          <p className="text-stone-400 text-lg">
+            Join South Africa&apos;s most distinguished community of Black Mastiff
+            enthusiasts and breeders.
           </p>
-        </Reveal>
+        </div>
 
         {/* Benefits grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {membershipBenefits.map((benefit, index) => (
-            <Reveal
+            <div
               key={benefit.title}
-              className="group card gradient-border"
-              delay={index * 100}
-              animation="scale-in"
+              className={`card-noir p-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              style={{ transitionDelay: `${index * 100 + 200}ms` }}
             >
               {/* Icon */}
-              <div className="relative w-14 h-14 mb-6">
-                <div className="absolute inset-0 bg-bronze-500/10 rounded-xl
-                              group-hover:bg-bronze-500 transition-all duration-500" />
-                <div className="relative w-full h-full flex items-center justify-center
-                              text-bronze-600 group-hover:text-white transition-colors duration-500">
-                  {icons[benefit.icon]}
-                </div>
+              <div className="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 mb-6">
+                {icons[benefit.icon]}
               </div>
 
-              <h3 className="font-display text-xl font-light text-espresso mb-4">
+              <h3 className="font-display text-xl text-cream mb-3">
                 {benefit.title}
               </h3>
-              <p className="text-warm-500 leading-relaxed text-sm">
+
+              <p className="text-stone-500 text-sm leading-relaxed">
                 {benefit.description}
               </p>
-            </Reveal>
+            </div>
           ))}
         </div>
 
-        <div className="text-center mt-16">
+        {/* CTA */}
+        <div className={`text-center mt-16 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <Link href="/register" className="btn-primary">
             <span>Become a Member</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         </div>
       </div>
@@ -343,80 +455,108 @@ function BenefitsSection() {
   );
 }
 
-// Breeders Preview Section
-function BreedersSection() {
-  return (
-    <section className="section-padding bg-ivory-200 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(160, 120, 60, 0.04) 0%, transparent 50%)'
-        }}
-      />
+// ========================================
+// BREEDERS SECTION - Magazine Grid
+// ========================================
 
-      <div className="container-custom relative">
+function BreedersSection() {
+  const { ref, isVisible } = useScrollReveal();
+
+  return (
+    <section className="relative section-padding bg-charcoal overflow-hidden">
+      {/* Top line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
+
+      <div ref={ref} className="container-custom relative">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 mb-16">
-          <Reveal animation="slide-in-right">
-            <span className="label mb-6">Our Network</span>
-            <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-light text-espresso">
-              Accredited <span className="text-gradient">Breeders</span>
+          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-12 h-px bg-amber-500/50" />
+              <span className="label-micro">Our Network</span>
+            </div>
+            <h2 className="heading-display text-cream">
+              Accredited
+              <br />
+              <span className="text-gradient-amber">Breeders</span>
             </h2>
-          </Reveal>
-          <Reveal animation="slide-in-left" delay={200}>
-            <Link
-              href="/breeders"
-              className="group inline-flex items-center gap-3 text-bronze-600 font-medium
-                      hover:text-bronze-700 transition-colors duration-300"
-            >
-              View All Breeders
-              <svg
-                className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </div>
+
+          <Link
+            href="/breeders"
+            className={`group inline-flex items-center gap-3 text-stone-400 font-medium transition-all duration-300 hover:text-cream ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}
+            style={{ transitionDelay: '200ms' }}
+          >
+            <span className="text-sm tracking-wide uppercase">View All</span>
+            <div className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center group-hover:border-amber-500 group-hover:bg-amber-500/10 transition-all duration-300">
+              <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </Link>
-          </Reveal>
+            </div>
+          </Link>
         </div>
 
         {/* Breeders grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {breeders.slice(0, 3).map((breeder, index) => (
-            <Reveal key={breeder.id} className="group" delay={index * 150} animation="fade-in-up">
-              {/* Placeholder */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 shadow-lg shadow-espresso/10 bg-warm-200 border-2 border-warm-300 flex items-center justify-center">
-                <span className="text-warm-500 font-medium text-lg">Placeholder image</span>
-                {/* Number badge */}
-                <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm
-                              flex items-center justify-center border border-espresso/10">
-                  <span className="font-display text-bronze-600 text-lg">
+            <div
+              key={breeder.id}
+              className={`group transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              style={{ transitionDelay: `${index * 150 + 300}ms` }}
+            >
+              {/* Image */}
+              <div className="relative aspect-[4/5] mb-6 overflow-hidden rounded-xl border border-stone-800/50 group-hover:border-amber-500/30 transition-colors duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-noir group-hover:scale-105 transition-transform duration-700">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-stone-600 font-medium">Breeder Portrait</span>
+                  </div>
+                </div>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+
+                {/* Edition number */}
+                <div className="absolute top-6 left-6">
+                  <div className="font-display text-5xl font-light text-white/10 leading-none">
                     {(index + 1).toString().padStart(2, '0')}
-                  </span>
+                  </div>
+                </div>
+
+                {/* Verified badge */}
+                <div className="absolute top-6 right-6">
+                  <div className="badge-verified">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    Verified
+                  </div>
+                </div>
+
+                {/* View profile on hover */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <Link href={`/breeders/${breeder.id}`} className="inline-flex items-center gap-2 text-cream text-sm font-semibold hover:text-amber-400 transition-colors">
+                    <span className="tracking-wide uppercase">View Profile</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
                 </div>
               </div>
 
               {/* Content */}
               <div>
-                <h3 className="font-display text-2xl font-light text-espresso mb-2
-                             group-hover:text-bronze-600 transition-colors duration-300">
+                <h3 className="font-display text-2xl text-cream mb-1 group-hover:text-amber-400 transition-colors duration-300">
                   {breeder.name}
                 </h3>
-                <p className="text-warm-500 text-sm mb-2">{breeder.kennel}</p>
-                <p className="text-bronze-600 text-sm font-medium flex items-center gap-2">
+                <p className="text-stone-500 text-sm mb-2">{breeder.kennel}</p>
+                <p className="text-amber-500/80 text-sm font-medium flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
                   {breeder.location}
                 </p>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>
@@ -424,82 +564,84 @@ function BreedersSection() {
   );
 }
 
+// ========================================
+// CTA SECTION - Full Width Dramatic
+// ========================================
 
-// CTA Section
 function CTASection() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="relative py-32 lg:py-40 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-bronze-500 via-bronze-400 to-bronze-600" />
+    <section ref={ref} className="relative section-padding overflow-hidden">
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-noir to-noir" />
 
       {/* Mesh overlay */}
-      <div className="absolute inset-0 opacity-30"
+      <div className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse 50% 80% at 20% 40%, rgba(0, 0, 0, 0.3) 0%, transparent 50%),
-            radial-gradient(ellipse 50% 80% at 80% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)
-          `
+            radial-gradient(ellipse 60% 60% at 20% 30%, rgba(217, 119, 6, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse 50% 50% at 80% 70%, rgba(0,0,0,0.3) 0%, transparent 50%)
+          `,
         }}
       />
 
-      {/* Noise texture */}
-      <div className="absolute inset-0 opacity-[0.08]"
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
+          backgroundImage: `linear-gradient(rgba(250,247,242,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(250,247,242,0.1) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
         }}
       />
-
-      {/* Decorative lines */}
-      <div className="absolute top-0 left-0 w-full h-px bg-espresso/10" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-espresso/10" />
 
       <div className="container-custom relative">
-        <Reveal className="max-w-4xl mx-auto text-center" animation="fade-in-up">
-          <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-8 leading-tight">
-            Ready to Find Your Perfect<br />
-            <span className="font-medium">Black Mastiff?</span>
+        <div className={`max-w-3xl mx-auto text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          {/* Decorative element */}
+          <div className="inline-flex items-center gap-4 mb-10">
+            <div className="w-16 h-px bg-amber-500/40" />
+            <div className="w-3 h-3 rounded-full border border-amber-500/60" />
+            <div className="w-16 h-px bg-amber-500/40" />
+          </div>
+
+          <h2 className="heading-display text-cream mb-6">
+            Ready to Discover Your
+            <br />
+            <span className="text-gradient-amber">Perfect Companion?</span>
           </h2>
-          <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto">
-            Connect with accredited breeders and join our community of passionate
-            black mastiff enthusiasts.
+
+          <p className="text-xl text-stone-400 mb-12 max-w-xl mx-auto">
+            Connect with our network of accredited breeders and begin your journey
+            with South Africa&apos;s most distinguished breed.
           </p>
+
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/buying-a-puppy"
-              className="inline-flex items-center justify-center px-8 py-4
-                       bg-white text-espresso font-semibold text-sm tracking-wide uppercase
-                       rounded-full transition-all duration-500
-                       hover:-translate-y-1 hover:shadow-xl hover:shadow-espresso/20"
-            >
-              Buying a Puppy
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <Link href="/buying-a-puppy" className="btn-primary">
+              <span>Find Your Puppy</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4
-                       bg-transparent text-white font-semibold text-sm tracking-wide uppercase
-                       rounded-full border-2 border-white/30
-                       transition-all duration-500
-                       hover:-translate-y-1 hover:bg-white/10 hover:border-white/50"
-            >
-              Contact Us
+            <Link href="/contact" className="btn-secondary">
+              <span>Contact Us</span>
             </Link>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
 }
 
-// Main Page Component
+// ========================================
+// MAIN PAGE
+// ========================================
+
 export default function Home() {
   return (
     <>
       <HeroSection />
+      <MarqueeTicker />
       <AboutSection />
+      <StatsSection />
       <BenefitsSection />
       <BreedersSection />
       <CTASection />

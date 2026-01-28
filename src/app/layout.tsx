@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 
-const cormorant = Cormorant_Garamond({
+// Dramatic display font - editorial luxury
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
-const outfit = Outfit({
+// Clean body font - modern legibility
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dmsans",
   display: "swap",
 });
 
@@ -90,9 +93,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${outfit.variable}`}>
-      <body className="font-body antialiased bg-ivory text-espresso">
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+      <body className="font-body antialiased bg-noir text-cream">
         <AuthProvider>
+          {/* Film grain overlay for cinematic effect */}
+          <div className="grain-overlay" aria-hidden="true" />
           <Header />
           <main>{children}</main>
           <Footer />

@@ -15,12 +15,9 @@ export default function Footer() {
     setIsSubmitting(true);
 
     try {
-      // Try Formspree submission
       const response = await fetch("https://formspree.io/f/xwpopjrj", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
           _subject: "New SABMA Newsletter Subscription",
@@ -31,14 +28,12 @@ export default function Footer() {
         setIsSubscribed(true);
         setEmail("");
       } else {
-        // Fallback: Open email client with subscription request
         const mailtoLink = `mailto:${siteConfig.email}?subject=Newsletter%20Subscription&body=Please%20add%20me%20to%20the%20SABMA%20newsletter.%0A%0AEmail:%20${encodeURIComponent(email)}`;
         window.location.href = mailtoLink;
         setIsSubscribed(true);
         setEmail("");
       }
     } catch {
-      // Fallback: Open email client with subscription request
       const mailtoLink = `mailto:${siteConfig.email}?subject=Newsletter%20Subscription&body=Please%20add%20me%20to%20the%20SABMA%20newsletter.%0A%0AEmail:%20${encodeURIComponent(email)}`;
       window.location.href = mailtoLink;
       setIsSubscribed(true);
@@ -52,21 +47,26 @@ export default function Footer() {
   const resourceLinks = navigation.slice(5);
 
   return (
-    <footer className="bg-espresso relative overflow-hidden">
-      {/* Top accent line */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-bronze-400/40 to-transparent" />
+    <footer className="relative bg-charcoal overflow-hidden">
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
 
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full"
-        style={{
-          background: 'radial-gradient(ellipse 100% 100% at 100% 0%, rgba(201, 165, 92, 0.05) 0%, transparent 50%)',
-        }}
-      />
-      <div className="absolute bottom-0 left-0 w-1/3 h-full"
-        style={{
-          background: 'radial-gradient(ellipse 100% 100% at 0% 100%, rgba(201, 165, 92, 0.03) 0%, transparent 50%)',
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Ambient glow */}
+        <div
+          className="absolute top-0 right-0 w-1/2 h-full"
+          style={{
+            background: 'radial-gradient(ellipse 80% 80% at 100% 0%, rgba(217, 119, 6, 0.06) 0%, transparent 50%)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 w-1/2 h-full"
+          style={{
+            background: 'radial-gradient(ellipse 80% 80% at 0% 100%, rgba(199, 123, 72, 0.04) 0%, transparent 50%)',
+          }}
+        />
+      </div>
 
       <div className="container-custom relative">
         {/* Main footer content */}
@@ -79,18 +79,19 @@ export default function Footer() {
                   src="/images/logo/sabma-logo.png"
                   alt="SABMA Logo"
                   fill
-                  className="object-contain brightness-0 invert opacity-80"
+                  className="object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
               <div>
-                <span className="font-display text-2xl font-light text-ivory-100">
+                <span className="font-display text-2xl text-cream group-hover:text-amber-400 transition-colors duration-300">
                   SABMA
                 </span>
               </div>
             </Link>
-            <p className="text-ivory-400 mb-8 leading-relaxed max-w-sm">
-              Promoting responsible breeding and upholding the standards of the
-              black mastiff breed in South Africa.
+
+            <p className="text-stone-500 mb-8 leading-relaxed max-w-sm">
+              The official registry and authority for the South African Black Mastiff.
+              Preserving bloodlines, certifying excellence.
             </p>
 
             {/* Social links */}
@@ -100,9 +101,9 @@ export default function Footer() {
                   href={siteConfig.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-full bg-ivory-100/5 border border-ivory-100/10
-                           flex items-center justify-center text-ivory-400
-                           hover:bg-bronze-400/10 hover:border-bronze-400/30 hover:text-bronze-400
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10
+                           flex items-center justify-center text-stone-500
+                           hover:bg-amber-500/10 hover:border-amber-500/30 hover:text-amber-400
                            transition-all duration-300"
                   aria-label="Facebook"
                 >
@@ -116,9 +117,9 @@ export default function Footer() {
                   href={siteConfig.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-full bg-ivory-100/5 border border-ivory-100/10
-                           flex items-center justify-center text-ivory-400
-                           hover:bg-bronze-400/10 hover:border-bronze-400/30 hover:text-bronze-400
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10
+                           flex items-center justify-center text-stone-500
+                           hover:bg-amber-500/10 hover:border-amber-500/30 hover:text-amber-400
                            transition-all duration-300"
                   aria-label="Instagram"
                 >
@@ -132,18 +133,16 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h3 className="font-display text-lg font-light text-ivory-100 mb-6">
-              Quick Links
+            <h3 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-amber-500 mb-6">
+              Navigation
             </h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-ivory-400
-                             hover:text-ivory-100 transition-colors duration-300"
+                    className="text-stone-400 hover:text-cream transition-colors duration-300 text-[14px]"
                   >
-                    <span className="w-0 h-px bg-bronze-400 group-hover:w-4 transition-all duration-300" />
                     {link.name}
                   </Link>
                 </li>
@@ -153,7 +152,7 @@ export default function Footer() {
 
           {/* Resources */}
           <div className="lg:col-span-2">
-            <h3 className="font-display text-lg font-light text-ivory-100 mb-6">
+            <h3 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-amber-500 mb-6">
               Resources
             </h3>
             <ul className="space-y-3">
@@ -161,10 +160,8 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-ivory-400
-                             hover:text-ivory-100 transition-colors duration-300"
+                    className="text-stone-400 hover:text-cream transition-colors duration-300 text-[14px]"
                   >
-                    <span className="w-0 h-px bg-bronze-400 group-hover:w-4 transition-all duration-300" />
                     {link.name}
                   </Link>
                 </li>
@@ -174,43 +171,41 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div className="lg:col-span-4">
-            <h3 className="font-display text-lg font-light text-ivory-100 mb-6">
-              Newsletter
+            <h3 className="text-[11px] font-semibold tracking-[0.2em] uppercase text-amber-500 mb-6">
+              Stay Updated
             </h3>
-            <p className="text-ivory-400 mb-6 text-sm leading-relaxed">
-              Stay updated with the latest news, events, and resources from SABMA.
+            <p className="text-stone-500 mb-6 text-sm leading-relaxed">
+              Subscribe to receive the latest news, events, and updates from SABMA.
             </p>
+
             {isSubscribed ? (
-              <div className="p-4 rounded-xl bg-bronze-400/10 border border-bronze-400/20">
-                <p className="text-bronze-400 text-sm font-medium flex items-center gap-2">
+              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                <p className="text-emerald-400 text-sm font-medium flex items-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M5 13l4 4L19 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Thank you for subscribing!
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="w-full px-5 py-4 bg-ivory-100/5 border border-ivory-100/10 rounded-xl
-                             text-ivory-100 placeholder-ivory-500 text-sm
-                             focus:outline-none focus:border-bronze-400/40 focus:bg-ivory-100/[0.07]
-                             transition-all duration-300"
-                  />
-                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl
+                           text-cream placeholder-stone-600 text-sm
+                           focus:outline-none focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/20
+                           transition-all duration-300"
+                />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-bronze-400 via-bronze-500 to-bronze-400
-                           text-espresso font-semibold text-sm tracking-wide uppercase rounded-xl
-                           transition-all duration-500 hover:shadow-bronze hover:-translate-y-0.5
+                  className="w-full px-6 py-3.5 bg-amber-600 hover:bg-amber-500
+                           text-noir font-semibold text-sm tracking-wide uppercase rounded-xl
+                           transition-all duration-300 hover:-translate-y-0.5 hover:shadow-amber
                            disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   {isSubmitting ? (
@@ -229,14 +224,16 @@ export default function Footer() {
             )}
 
             {/* Contact Info */}
-            <div className="mt-8 pt-8 border-t border-ivory-100/5 space-y-4">
+            <div className="mt-8 pt-8 border-t border-stone-800/50 space-y-4">
               <a
                 href={`tel:${siteConfig.phone}`}
-                className="flex items-center gap-3 text-ivory-400 hover:text-ivory-100
-                         transition-colors duration-300 text-sm"
+                className="flex items-center gap-3 text-stone-400 hover:text-amber-400
+                         transition-colors duration-300 text-sm group"
               >
-                <div className="w-10 h-10 rounded-lg bg-ivory-100/5 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-bronze-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10
+                              flex items-center justify-center group-hover:bg-amber-500/10
+                              group-hover:border-amber-500/30 transition-all duration-300">
+                  <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
@@ -245,11 +242,13 @@ export default function Footer() {
               </a>
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="flex items-center gap-3 text-ivory-400 hover:text-ivory-100
-                         transition-colors duration-300 text-sm"
+                className="flex items-center gap-3 text-stone-400 hover:text-amber-400
+                         transition-colors duration-300 text-sm group"
               >
-                <div className="w-10 h-10 rounded-lg bg-ivory-100/5 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-bronze-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10
+                              flex items-center justify-center group-hover:bg-amber-500/10
+                              group-hover:border-amber-500/30 transition-all duration-300">
+                  <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -261,29 +260,29 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="py-8 border-t border-ivory-100/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-ivory-500 text-sm">
-            &copy; {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.
+        <div className="py-8 border-t border-stone-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-stone-600 text-sm">
+            &copy; {new Date().getFullYear()} {siteConfig.fullName}
           </p>
           <div className="flex items-center gap-8 text-sm">
             <Link
               href="/privacy"
-              className="text-ivory-500 hover:text-ivory-100 transition-colors duration-300"
+              className="text-stone-500 hover:text-cream transition-colors duration-300"
             >
-              Privacy Policy
+              Privacy
             </Link>
             <Link
               href="/terms"
-              className="text-ivory-500 hover:text-ivory-100 transition-colors duration-300"
+              className="text-stone-500 hover:text-cream transition-colors duration-300"
             >
-              Terms of Service
+              Terms
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Bottom accent */}
-      <div className="h-1 bg-gradient-to-r from-bronze-500 via-bronze-400 to-bronze-600" />
+      {/* Bottom amber accent */}
+      <div className="h-1 bg-gradient-to-r from-amber-700 via-amber-500 to-amber-700" />
     </footer>
   );
 }

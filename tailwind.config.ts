@@ -17,7 +17,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Shadcn CSS variable colors (mapped to SABMA palette)
+        // Shadcn CSS variable colors
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -51,29 +51,92 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Warm Ivory Heritage - Light Theme Palette
-        // Primary backgrounds - warm, easy on eyes
-        ivory: {
-          DEFAULT: '#FDFBF7',
+
+        // ========================================
+        // HERITAGE NOIR - Premium Dark Palette
+        // Inspired by the majestic Black Mastiff
+        // ========================================
+
+        // Primary: Deep Noir (the dog's coat)
+        noir: {
+          DEFAULT: '#0D0D0D',
+          50: '#1A1A1A',
+          100: '#141414',
+          200: '#0D0D0D',
+          300: '#080808',
+          400: '#050505',
+          500: '#000000',
+        },
+
+        // Warm Charcoal (depth without harshness)
+        charcoal: {
+          DEFAULT: '#1C1917',
+          50: '#292524',
+          100: '#1C1917',
+          200: '#171412',
+          300: '#12100E',
+          400: '#0C0A09',
+        },
+
+        // Amber/Gold Accent (warmth, prestige)
+        amber: {
+          DEFAULT: '#D97706',
+          50: '#FFFBEB',
+          100: '#FEF3C7',
+          200: '#FDE68A',
+          300: '#FCD34D',
+          400: '#FBBF24',
+          500: '#F59E0B',
+          600: '#D97706',
+          700: '#B45309',
+          800: '#92400E',
+          900: '#78350F',
+        },
+
+        // Warm Cream (contrast, readability)
+        cream: {
+          DEFAULT: '#FAF7F2',
           50: '#FFFFFF',
-          100: '#FDFBF7',
-          200: '#F8F4EC',
-          300: '#F0E9DD',
-          400: '#E5DCCC',
-          500: '#D4C8B4',
+          100: '#FAF7F2',
+          200: '#F5F0E8',
+          300: '#EDE5D8',
+          400: '#E0D5C4',
+          500: '#D4C9B5',
         },
-        // Text colors - deep but not harsh black
-        espresso: {
-          DEFAULT: '#2C2418',
-          50: '#5C4D3A',
-          100: '#4A3E2E',
-          200: '#3D3326',
-          300: '#2C2418',
-          400: '#1F1A11',
-          500: '#14110B',
+
+        // Stone (neutral text on dark)
+        stone: {
+          DEFAULT: '#A8A29E',
+          50: '#FAFAF9',
+          100: '#F5F5F4',
+          200: '#E7E5E4',
+          300: '#D6D3D1',
+          400: '#A8A29E',
+          500: '#78716C',
+          600: '#57534E',
+          700: '#44403C',
+          800: '#292524',
+          900: '#1C1917',
         },
-        // Premium bronze/gold accents (kept from before)
+
+        // Copper (warm metallic accent)
+        copper: {
+          DEFAULT: '#C77B48',
+          50: '#FDF4EE',
+          100: '#F9E4D6',
+          200: '#F2C8AC',
+          300: '#E8A577',
+          400: '#DD8246',
+          500: '#C77B48',
+          600: '#A8623A',
+          700: '#8B4E31',
+          800: '#6E3D28',
+          900: '#522D1E',
+        },
+
+        // Deep Bronze (heritage feel)
         bronze: {
+          DEFAULT: '#B8860B',
           50: '#FDF8F0',
           100: '#F5E6D3',
           200: '#E8C9A0',
@@ -82,16 +145,21 @@ const config: Config = {
           500: '#B8860B',
           600: '#9A7209',
           700: '#7C5C07',
-          800: '#5E4505',
-          900: '#402F04',
         },
-        // Warm copper highlights
-        copper: {
-          DEFAULT: '#B87333',
-          light: '#CD8B4A',
-          dark: '#8B5A2B',
+
+        // Legacy colors for compatibility
+        ivory: {
+          DEFAULT: '#FAF7F2',
+          50: '#FFFFFF',
+          100: '#FAF7F2',
+          200: '#F5F0E8',
+          300: '#EDE5D8',
+          400: '#E0D5C4',
+          500: '#D4C9B5',
         },
-        // Warm neutral grays (not cold)
+        espresso: {
+          DEFAULT: '#1C1917',
+        },
         warm: {
           50: '#FAF9F7',
           100: '#F5F3EF',
@@ -104,38 +172,98 @@ const config: Config = {
           800: '#3E3830',
           900: '#262220',
         },
-        // Keep obsidian for dark sections if needed
-        obsidian: {
-          DEFAULT: '#1A1714',
-          50: '#2C2722',
-          100: '#231F1A',
-          200: '#1A1714',
-          300: '#14110E',
-          400: '#0A0908',
+        forest: {
+          DEFAULT: '#1B4332',
+          50: '#D8F3DC',
+          100: '#B7E4C7',
+          200: '#95D5B2',
+          300: '#52B788',
+          400: '#2D6A4F',
+          500: '#1B4332',
+          600: '#14352A',
+          700: '#0D2818',
+        },
+        gold: {
+          DEFAULT: '#D4AF37',
+          50: '#FBF7E8',
+          100: '#F5EBC4',
+          200: '#EDDA8C',
+          300: '#E5C954',
+          400: '#D4AF37',
+          500: '#B8962F',
+          600: '#9A7D27',
+          700: '#7C641F',
+        },
+        ink: {
+          DEFAULT: '#1C1917',
+          50: '#44403C',
+          100: '#3B3835',
+          200: '#2C2926',
+          300: '#1C1917',
+        },
+        earth: {
+          bark: {
+            50: '#FAF5F0',
+            100: '#F0E6D8',
+            200: '#E0CDB1',
+            300: '#C9A97A',
+            400: '#A67C52',
+            500: '#5D4037',
+            600: '#4E3630',
+            700: '#3E2A25',
+            800: '#2F1F1B',
+            900: '#1F1410',
+          },
+          sand: {
+            50: '#FDFAF5',
+            100: '#F9F3E8',
+            200: '#F5E6D3',
+            300: '#EDD9BE',
+            400: '#E2C79F',
+            500: '#D4B07A',
+          },
+          grass: {
+            50: '#ECFDF5',
+            100: '#D1FAE5',
+            200: '#A7F3D0',
+            300: '#6EE7B7',
+            400: '#34D399',
+            500: '#10B981',
+            600: '#059669',
+            700: '#047857',
+          },
         },
       },
       fontFamily: {
-        display: ['var(--font-cormorant)', 'Cormorant Garamond', 'Georgia', 'serif'],
-        body: ['var(--font-outfit)', 'Outfit', 'system-ui', 'sans-serif'],
+        // Dramatic display font - editorial luxury
+        display: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        // Clean body font - modern legibility
+        body: ['var(--font-dmsans)', 'DM Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        // Slightly larger base sizes for readability
-        'display-2xl': ['7rem', { lineHeight: '0.9', letterSpacing: '-0.03em' }],
-        'display-xl': ['5rem', { lineHeight: '0.95', letterSpacing: '-0.02em' }],
-        'display-lg': ['3.5rem', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
-        'display-md': ['2.5rem', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
-        'display-sm': ['1.875rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }],
+        // Dramatic display sizes
+        'hero': ['clamp(3.5rem, 12vw, 10rem)', { lineHeight: '0.9', letterSpacing: '-0.04em', fontWeight: '400' }],
+        'display-2xl': ['7rem', { lineHeight: '0.85', letterSpacing: '-0.04em' }],
+        'display-xl': ['5rem', { lineHeight: '0.9', letterSpacing: '-0.03em' }],
+        'display-lg': ['3.5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],
+        'display-md': ['2.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display-sm': ['1.875rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'fade-in-down': 'fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'slide-in-right': 'slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'slide-in-left': 'slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'scale-in': 'scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-in-right': 'slideInRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-in-left': 'slideInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'scale-in': 'scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'float': 'float 8s ease-in-out infinite',
         'shimmer': 'shimmer 2.5s linear infinite',
         'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+        'reveal-up': 'revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'draw-line': 'drawLine 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'text-reveal': 'textReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'border-glow': 'borderGlow 3s ease-in-out infinite',
+        'grain': 'grain 8s steps(10) infinite',
       },
       keyframes: {
         fadeIn: {
@@ -143,7 +271,7 @@ const config: Config = {
           '100%': { opacity: '1' },
         },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(40px)' },
+          '0%': { opacity: '0', transform: 'translateY(60px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeInDown: {
@@ -151,11 +279,11 @@ const config: Config = {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(-60px)' },
+          '0%': { opacity: '0', transform: 'translateX(-80px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(60px)' },
+          '0%': { opacity: '0', transform: 'translateX(80px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         scaleIn: {
@@ -174,23 +302,54 @@ const config: Config = {
           '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
           '50%': { opacity: '0.8', transform: 'scale(1.05)' },
         },
+        revealUp: {
+          '0%': { opacity: '0', transform: 'translateY(100px)', filter: 'blur(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
+        },
+        drawLine: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+        textReveal: {
+          '0%': { opacity: '0', transform: 'translateY(100%)', filter: 'blur(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
+        },
+        borderGlow: {
+          '0%, 100%': { borderColor: 'rgba(217, 119, 6, 0.2)' },
+          '50%': { borderColor: 'rgba(217, 119, 6, 0.6)' },
+        },
+        grain: {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '10%': { transform: 'translate(-5%, -10%)' },
+          '20%': { transform: 'translate(-15%, 5%)' },
+          '30%': { transform: 'translate(7%, -25%)' },
+          '40%': { transform: 'translate(-5%, 25%)' },
+          '50%': { transform: 'translate(-15%, 10%)' },
+          '60%': { transform: 'translate(15%, 0%)' },
+          '70%': { transform: 'translate(0%, 15%)' },
+          '80%': { transform: 'translate(3%, 35%)' },
+          '90%': { transform: 'translate(-10%, 10%)' },
+        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-bronze': 'linear-gradient(135deg, #C9A55C 0%, #B8860B 50%, #9A7209 100%)',
-        'gradient-warm': 'linear-gradient(180deg, #FDFBF7 0%, #F8F4EC 50%, #F0E9DD 100%)',
-        'mesh-light': 'radial-gradient(at 40% 20%, rgba(201, 165, 92, 0.08) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(184, 115, 51, 0.05) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(201, 165, 92, 0.04) 0px, transparent 50%)',
+        'gradient-amber': 'linear-gradient(135deg, #D97706 0%, #B45309 50%, #92400E 100%)',
+        'gradient-noir': 'linear-gradient(180deg, #1C1917 0%, #0D0D0D 100%)',
+        'gradient-warm': 'linear-gradient(180deg, #FAF7F2 0%, #F5F0E8 50%, #EDE5D8 100%)',
+        // Noise texture
+        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
       },
       boxShadow: {
-        'soft': '0 2px 20px -3px rgba(44, 36, 24, 0.08), 0 10px 30px -5px rgba(44, 36, 24, 0.05)',
-        'soft-lg': '0 15px 50px -5px rgba(44, 36, 24, 0.1), 0 25px 40px -5px rgba(44, 36, 24, 0.05)',
-        'inner-soft': 'inset 0 2px 4px 0 rgba(44, 36, 24, 0.04)',
-        'bronze': '0 10px 50px -10px rgba(201, 165, 92, 0.3)',
-        'bronze-lg': '0 25px 80px -15px rgba(201, 165, 92, 0.4)',
-        'bronze-glow': '0 0 60px -10px rgba(201, 165, 92, 0.5)',
-        'card': '0 4px 30px -5px rgba(44, 36, 24, 0.08)',
-        'card-hover': '0 20px 50px -10px rgba(44, 36, 24, 0.12)',
+        'soft': '0 2px 20px -3px rgba(0, 0, 0, 0.1)',
+        'soft-lg': '0 15px 50px -5px rgba(0, 0, 0, 0.15)',
+        'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
+        'amber': '0 10px 50px -10px rgba(217, 119, 6, 0.4)',
+        'amber-lg': '0 25px 80px -15px rgba(217, 119, 6, 0.5)',
+        'amber-glow': '0 0 60px -10px rgba(217, 119, 6, 0.6)',
+        'card': '0 4px 30px -5px rgba(0, 0, 0, 0.1)',
+        'card-hover': '0 20px 50px -10px rgba(0, 0, 0, 0.2)',
+        'dramatic': '0 50px 100px -20px rgba(0, 0, 0, 0.5)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -202,6 +361,7 @@ const config: Config = {
       transitionTimingFunction: {
         'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
         'out-quart': 'cubic-bezier(0.25, 1, 0.5, 1)',
+        'dramatic': 'cubic-bezier(0.4, 0, 0, 1)',
       },
     },
   },
