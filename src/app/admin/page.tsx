@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { Dog, Building2, Users, Plus, Eye, Edit } from 'lucide-react'
+import { Dog, Building2, Users, Plus, Eye, Edit, Shield, Heart, Award, Image as ImageIcon, Calendar, MessageSquare, BookOpen, Settings } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
@@ -11,11 +11,31 @@ export default async function AdminDashboard() {
   const session = await getServerSession(authOptions)
 
   // Get statistics
-  const [dogCount, kennelCount, memberCount, pendingMemberCount, recentDogs] = await Promise.all([
+  const [
+    dogCount,
+    kennelCount,
+    memberCount,
+    pendingMemberCount,
+    councilCount,
+    breederCount,
+    studCount,
+    galleryCount,
+    eventCount,
+    testimonialCount,
+    resourceCount,
+    recentDogs,
+  ] = await Promise.all([
     prisma.dog.count(),
     prisma.kennel.count(),
     prisma.user.count({ where: { role: 'MEMBER', isActive: true } }),
     prisma.user.count({ where: { role: 'MEMBER', isActive: false } }),
+    prisma.councilMember.count({ where: { active: true } }),
+    prisma.breeder.count({ where: { active: true } }),
+    prisma.studDog.count({ where: { active: true } }),
+    prisma.galleryImage.count({ where: { active: true } }),
+    prisma.calendarEvent.count({ where: { active: true } }),
+    prisma.testimonial.count({ where: { active: true } }),
+    prisma.resource.count({ where: { active: true } }),
     prisma.dog.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
@@ -35,7 +55,7 @@ export default async function AdminDashboard() {
         </p>
       </div>
 
-      {/* Stats */}
+      {/* Registry Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
           title="Total Dogs"
@@ -62,6 +82,20 @@ export default async function AdminDashboard() {
           href="/admin/members?status=pending"
           highlight={pendingMemberCount > 0}
         />
+      </div>
+
+      {/* Content Stats */}
+      <div className="mb-8">
+        <h2 className="font-display text-lg font-semibold text-espresso mb-4">Website Content</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+          <StatCard title="Council" value={councilCount} icon={Shield} href="/admin/council" />
+          <StatCard title="Breeders" value={breederCount} icon={Heart} href="/admin/breeders" />
+          <StatCard title="Stud Dogs" value={studCount} icon={Award} href="/admin/studs" />
+          <StatCard title="Gallery" value={galleryCount} icon={ImageIcon} href="/admin/gallery" />
+          <StatCard title="Events" value={eventCount} icon={Calendar} href="/admin/calendar" />
+          <StatCard title="Testimonials" value={testimonialCount} icon={MessageSquare} href="/admin/testimonials" />
+          <StatCard title="Resources" value={resourceCount} icon={BookOpen} href="/admin/resources" />
+        </div>
       </div>
 
       {/* Quick Actions */}
@@ -91,9 +125,21 @@ export default async function AdminDashboard() {
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/registry/dogs">
-                <Eye className="w-4 h-4 mr-2" />
-                View Registry
+              <Link href="/admin/calendar">
+                <Calendar className="w-4 h-4 mr-2" />
+                Manage Events
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/admin/gallery">
+                <ImageIcon className="w-4 h-4 mr-2" />
+                Manage Gallery
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/admin/settings">
+                <Settings className="w-4 h-4 mr-2" />
+                Site Settings
               </Link>
             </Button>
           </CardContent>

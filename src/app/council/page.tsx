@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { councilMembers } from "@/data/content";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "The Council",
@@ -8,7 +10,11 @@ export const metadata: Metadata = {
     "Meet the dedicated individuals steering SABMA towards excellence - the heartbeat of our organization.",
 };
 
-export default function CouncilPage() {
+export default async function CouncilPage() {
+  const councilMembers = await prisma.councilMember.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: 'asc' },
+  });
   return (
     <>
       {/* Hero Section */}
@@ -42,6 +48,11 @@ export default function CouncilPage() {
       <section className="section-padding bg-charcoal relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
         <div className="container-custom">
+          {councilMembers.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-stone-500 text-lg">No council members to display at this time.</p>
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {councilMembers.map((member) => (
               <div
@@ -104,6 +115,7 @@ export default function CouncilPage() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

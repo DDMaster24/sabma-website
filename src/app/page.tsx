@@ -3,7 +3,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { breeders, membershipBenefits } from "@/data/content";
+// membershipBenefits are static content, kept inline
+const membershipBenefits = [
+  {
+    title: "Breeder Directory",
+    description:
+      "Our breeder directory is a valuable resource for anyone looking to add a black mastiff to their family. Our members are dedicated to breeding healthy and well-socialized puppies that conform to the breed standard.",
+    icon: "directory",
+  },
+  {
+    title: "Educational Resources",
+    description:
+      "As a member of SABMA, you will have access to a range of benefits including educational resources, networking opportunities, and more.",
+    icon: "education",
+  },
+  {
+    title: "Events & Appraisals",
+    description:
+      "SABMA hosts a range of events throughout the year, including appraisals, and seminars. These events provide opportunities for black mastiff enthusiasts to come together, share knowledge, and celebrate the breed.",
+    icon: "events",
+  },
+  {
+    title: "Community Support",
+    description:
+      "Join a passionate community of like-minded enthusiasts who share your love for these magnificent dogs and are committed to their welfare.",
+    icon: "community",
+  },
+];
 
 // ========================================
 // HOOKS
@@ -461,8 +487,31 @@ function BenefitsSection() {
 // BREEDERS SECTION - Magazine Grid
 // ========================================
 
+interface BreederData {
+  id: string;
+  name: string;
+  kennel: string;
+  owners: string;
+  location: string;
+  phone: string | null;
+  email: string | null;
+  image: string | null;
+}
+
 function BreedersSection() {
   const { ref, isVisible } = useScrollReveal();
+  const [breeders, setBreeders] = useState<BreederData[]>([]);
+
+  useEffect(() => {
+    fetch('/api/breeders')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setBreeders(data);
+        }
+      })
+      .catch((err) => console.error('Failed to load breeders:', err));
+  }, []);
 
   return (
     <section className="relative section-padding bg-charcoal overflow-hidden">
@@ -567,6 +616,90 @@ function BreedersSection() {
 }
 
 // ========================================
+// TESTIMONIALS SECTION
+// ========================================
+
+interface TestimonialData {
+  id: string;
+  name: string;
+  quote: string;
+  image: string | null;
+}
+
+function TestimonialsSection() {
+  const { ref, isVisible } = useScrollReveal();
+  const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
+
+  useEffect(() => {
+    fetch('/api/testimonials')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setTestimonials(data);
+        }
+      })
+      .catch((err) => console.error('Failed to load testimonials:', err));
+  }, []);
+
+  if (testimonials.length === 0) return null;
+
+  return (
+    <section className="relative section-padding bg-noir overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
+      <div className="absolute inset-0">
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(217, 119, 6, 0.08) 0%, transparent 60%)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
+
+      <div ref={ref} className="container-custom relative">
+        <div className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <div className="inline-flex items-center gap-3 mb-8">
+            <div className="w-12 h-px bg-amber-500/50" />
+            <span className="label-micro">Testimonials</span>
+            <div className="w-12 h-px bg-amber-500/50" />
+          </div>
+
+          <h2 className="heading-display text-cream mb-6">
+            What Our Members
+            <br />
+            <span className="text-gradient-amber">Say</span>
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.slice(0, 3).map((testimonial, index) => (
+            <div
+              key={testimonial.id}
+              className={`card-noir p-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              style={{ transitionDelay: `${index * 150 + 200}ms` }}
+            >
+              <svg className="w-8 h-8 text-amber-500/30 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z" />
+              </svg>
+              <p className="text-stone-400 leading-relaxed mb-6">
+                &ldquo;{testimonial.quote}&rdquo;
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center border border-amber-500/20">
+                  <span className="text-amber-500 font-display font-medium">
+                    {testimonial.name.charAt(0)}
+                  </span>
+                </div>
+                <span className="font-medium text-cream">{testimonial.name}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ========================================
 // CTA SECTION - Full Width Dramatic
 // ========================================
 
@@ -646,6 +779,7 @@ export default function Home() {
       <StatsSection />
       <BenefitsSection />
       <BreedersSection />
+      <TestimonialsSection />
       <CTASection />
     </>
   );

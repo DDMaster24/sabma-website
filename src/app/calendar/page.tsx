@@ -1,54 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Calendar",
   description:
     "Stay updated with SABMA events, appraisals, shows, and seminars throughout the year.",
 };
-
-const events = [
-  {
-    id: 1,
-    title: "Annual Appraisal Day - Gauteng",
-    date: "2026-03-15",
-    time: "09:00",
-    location: "Pretoria, Gauteng",
-    type: "Appraisal",
-    description:
-      "Annual breed appraisal for registered dogs. Bring your documentation and registration papers.",
-  },
-  {
-    id: 2,
-    title: "SABMA Members Meeting",
-    date: "2026-04-20",
-    time: "14:00",
-    location: "Online / Virtual",
-    type: "Meeting",
-    description:
-      "Quarterly members meeting to discuss breed standards, upcoming events, and association matters.",
-  },
-  {
-    id: 3,
-    title: "Black Mastiff Breed Seminar",
-    date: "2026-05-10",
-    time: "10:00",
-    location: "Bloemfontein, Free State",
-    type: "Seminar",
-    description:
-      "Educational seminar covering breeding practices, health management, and breed preservation.",
-  },
-  {
-    id: 4,
-    title: "Annual Appraisal Day - KZN",
-    date: "2026-06-22",
-    time: "09:00",
-    location: "Durban, KwaZulu-Natal",
-    type: "Appraisal",
-    description:
-      "Regional appraisal day for members in the KwaZulu-Natal region.",
-  },
-];
 
 const eventTypeColors: Record<string, string> = {
   Appraisal: "bg-amber-500/10 text-amber-400 border border-amber-500/30",
@@ -57,8 +17,7 @@ const eventTypeColors: Record<string, string> = {
   Show: "bg-purple-500/10 text-purple-400 border border-purple-500/30",
 };
 
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
+function formatDate(date: Date) {
   return {
     day: date.getDate(),
     month: date.toLocaleString("en-ZA", { month: "short" }).toUpperCase(),
@@ -72,7 +31,15 @@ function formatDate(dateString: string) {
   };
 }
 
-export default function CalendarPage() {
+export default async function CalendarPage() {
+  const events = await prisma.calendarEvent.findMany({
+    where: {
+      active: true,
+      date: { gte: new Date() },
+    },
+    orderBy: { date: 'asc' },
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -105,6 +72,11 @@ export default function CalendarPage() {
               Upcoming Events
             </h2>
 
+            {events.length === 0 ? (
+              <div className="text-center py-16 card-noir">
+                <p className="text-stone-500 text-lg">No upcoming events at this time. Check back soon!</p>
+              </div>
+            ) : (
             <div className="space-y-6">
               {events.map((event) => {
                 const date = formatDate(event.date);
@@ -136,43 +108,50 @@ export default function CalendarPage() {
                         >
                           {event.type}
                         </span>
-                        <span className="text-sm text-stone-500">
-                          {event.time}
-                        </span>
+                        {event.time && (
+                          <span className="text-sm text-stone-500">
+                            {event.time}
+                          </span>
+                        )}
                       </div>
                       <h3 className="font-display text-xl font-semibold text-cream mb-2">
                         {event.title}
                       </h3>
-                      <p className="text-stone-400 text-sm mb-3">
-                        {event.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm text-stone-500">
-                        <svg
-                          className="w-4 h-4 text-amber-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                        </svg>
-                        {event.location}
-                      </div>
+                      {event.description && (
+                        <p className="text-stone-400 text-sm mb-3">
+                          {event.description}
+                        </p>
+                      )}
+                      {event.location && (
+                        <div className="flex items-center gap-2 text-sm text-stone-500">
+                          <svg
+                            className="w-4 h-4 text-amber-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                          </svg>
+                          {event.location}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
               })}
             </div>
+            )}
           </div>
         </div>
       </section>

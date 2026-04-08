@@ -210,3 +210,130 @@ enum CertificateType {
   HEALTH
   OTHER
 }
+
+// ========================================
+// WEBSITE CONTENT MODELS
+// Managed via admin dashboard
+// ========================================
+
+// Council members displayed on the public Council page
+model CouncilMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  email     String?
+  phone     String?
+  image     String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// Accredited breeders displayed on the public Breeders page
+model Breeder {
+  id          String   @id @default(cuid())
+  name        String
+  kennel      String
+  owners      String
+  location    String
+  phone       String?
+  email       String?
+  image       String?
+  description String?  @db.Text
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// Stud dogs displayed on the public Stud Register page
+model StudDog {
+  id             String   @id @default(cuid())
+  name           String
+  lineage        String?
+  classification String   @default("BRONZE") // BRONZE, SILVER, GOLD
+  image          String?
+  description    String?  @db.Text
+  active         Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// Gallery images displayed on the public Gallery page
+model GalleryImage {
+  id        String   @id @default(cuid())
+  src       String
+  alt       String?
+  caption   String?
+  category  String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// Events displayed on the public Calendar page
+model CalendarEvent {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  time        String?
+  location    String?
+  type        String   @default("Event") // Appraisal, Meeting, Seminar, Show
+  description String?  @db.Text
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([date])
+}
+
+// Testimonials displayed on the homepage and testimonials page
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  quote     String   @db.Text
+  image     String?
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// Downloadable resources on the Resources page
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  category    String
+  icon        String?
+  link        String?
+  available   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+}
+
+// Key-value store for site-wide settings (contact info, social links, etc.)
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+
+  @@index([key])
+}

@@ -27,6 +27,7 @@ export const navigation = [
   { name: "Contact Us", href: "/contact" },
 ];
 
+/** @deprecated Council members are now loaded from the database via Prisma. This export is kept for backward compatibility. */
 export const councilMembers = [
   {
     id: 1,
@@ -86,6 +87,7 @@ export const councilMembers = [
   },
 ];
 
+/** @deprecated Breeders are now loaded from the database via Prisma. This export is kept for backward compatibility. */
 export const breeders = [
   {
     id: 1,
@@ -139,6 +141,7 @@ export const breeders = [
   },
 ];
 
+/** @deprecated Stud dogs are now loaded from the database via Prisma. This export is kept for backward compatibility. */
 export const studDogs = [
   {
     id: 1,
@@ -163,6 +166,7 @@ export const studDogs = [
   },
 ];
 
+/** @deprecated Testimonials are now loaded from the database via Prisma. This export is kept for backward compatibility. */
 export const testimonials = [
   {
     id: 1,

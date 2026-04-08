@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { studDogs } from "@/data/content";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Stud Register",
@@ -8,7 +10,11 @@ export const metadata: Metadata = {
     "The Stud Register stands as a testament to the elite and exclusive lineage of our exceptional canine members.",
 };
 
-export default function StudRegisterPage() {
+export default async function StudRegisterPage() {
+  const studDogs = await prisma.studDog.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: 'asc' },
+  });
   return (
     <>
       {/* Hero Section */}
@@ -53,6 +59,11 @@ export default function StudRegisterPage() {
             </p>
           </div>
 
+          {studDogs.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-stone-500 text-lg">No registered studs to display at this time.</p>
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {studDogs.map((dog) => (
               <div key={dog.id} className="group card-noir overflow-hidden">
@@ -73,14 +84,14 @@ export default function StudRegisterPage() {
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border
                                 ${
-                                  dog.status === "SILVER"
+                                  dog.classification === "SILVER"
                                     ? "bg-stone-400/10 text-stone-300 border-stone-400/30"
-                                    : dog.status === "GOLD"
+                                    : dog.classification === "GOLD"
                                     ? "bg-amber-500/20 text-amber-400 border-amber-500/40"
                                     : "bg-copper-500/10 text-copper-400 border-copper-500/30"
                                 }`}
                     >
-                      {dog.status}
+                      {dog.classification}
                     </span>
                   </div>
                   {/* Gradient overlay */}
@@ -100,6 +111,7 @@ export default function StudRegisterPage() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

@@ -1,93 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Resources",
   description:
     "Access valuable resources about the South African Black Mastiff breed - health guides, training tips, breed standards, and more.",
 };
-
-const resources = [
-  {
-    category: "Breed Information",
-    items: [
-      {
-        title: "Breed Standard",
-        description:
-          "The official breed standard for the South African Black Mastiff, including physical characteristics and temperament.",
-        icon: "document",
-        available: true,
-        link: "/documents/breed-standard.pdf",
-      },
-      {
-        title: "History of the Breed",
-        description:
-          "Learn about the rich history and heritage of the South African Black Mastiff.",
-        icon: "history",
-        available: false,
-      },
-      {
-        title: "Breed Characteristics",
-        description:
-          "Detailed information about the temperament, size, and unique traits of the breed.",
-        icon: "info",
-        available: false,
-      },
-    ],
-  },
-  {
-    category: "Health & Care",
-    items: [
-      {
-        title: "Health Guidelines",
-        description:
-          "Important health information, common conditions, and preventive care for your Black Mastiff.",
-        icon: "health",
-        available: false,
-      },
-      {
-        title: "Nutrition Guide",
-        description:
-          "Feeding recommendations and nutritional requirements for puppies and adults.",
-        icon: "nutrition",
-        available: false,
-      },
-      {
-        title: "Grooming Tips",
-        description:
-          "Best practices for coat care, nail trimming, and general grooming.",
-        icon: "grooming",
-        available: false,
-      },
-    ],
-  },
-  {
-    category: "Training & Behaviour",
-    items: [
-      {
-        title: "Training Basics",
-        description:
-          "Foundation training techniques specifically suited for the Black Mastiff temperament.",
-        icon: "training",
-        available: false,
-      },
-      {
-        title: "Socialization Guide",
-        description:
-          "How to properly socialize your Black Mastiff from puppyhood to adulthood.",
-        icon: "social",
-        available: false,
-      },
-      {
-        title: "Behavioural Tips",
-        description:
-          "Understanding and managing common behavioural traits of the breed.",
-        icon: "behaviour",
-        available: false,
-      },
-    ],
-  },
-];
 
 const icons: Record<string, React.ReactNode> = {
   document: (
@@ -182,7 +103,21 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  const resources = await prisma.resource.findMany({
+    where: { active: true },
+    orderBy: [{ category: 'asc' }, { sortOrder: 'asc' }],
+  });
+
+  // Group resources by category
+  const grouped = resources.reduce<Record<string, typeof resources>>((acc, resource) => {
+    if (!acc[resource.category]) {
+      acc[resource.category] = [];
+    }
+    acc[resource.category].push(resource);
+    return acc;
+  }, {});
+
   return (
     <>
       {/* Hero Section */}
@@ -209,16 +144,20 @@ export default function ResourcesPage() {
       {/* Resources Grid */}
       <section className="section-padding bg-noir">
         <div className="container-custom">
-          {resources.map((section) => (
-            <div key={section.category} className="mb-16 last:mb-0">
+          {Object.keys(grouped).length === 0 ? (
+            <div className="text-center py-16 card-noir">
+              <p className="text-stone-500 text-lg">No resources available at this time. Check back soon!</p>
+            </div>
+          ) : Object.entries(grouped).map(([category, items]) => (
+            <div key={category} className="mb-16 last:mb-0">
               <h2 className="font-display text-2xl font-bold text-cream mb-8 flex items-center gap-3">
                 <span className="w-8 h-px bg-amber-500" />
-                {section.category}
+                {category}
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {section.items.map((item) => (
+                {items.map((item) => (
                   <div
-                    key={item.title}
+                    key={item.id}
                     className={`group p-6 card-noir ${
                       item.available
                         ? "cursor-pointer"
@@ -232,7 +171,7 @@ export default function ResourcesPage() {
                           : "bg-stone-800/50 border border-stone-700/50 text-stone-500"
                       }`}
                     >
-                      {icons[item.icon]}
+                      {item.icon && icons[item.icon] ? icons[item.icon] : icons["document"]}
                     </div>
                     <h3 className={`font-display text-lg font-semibold mb-2 ${
                       item.available ? "text-cream" : "text-stone-400"
@@ -244,7 +183,7 @@ export default function ResourcesPage() {
                     </p>
                     {item.available ? (
                       <a
-                        href={item.link}
+                        href={item.link || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-amber-500 font-medium text-sm group-hover:text-amber-400"

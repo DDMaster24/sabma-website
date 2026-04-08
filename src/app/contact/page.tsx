@@ -1,9 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { siteConfig } from "@/data/content";
+import { useState, useEffect } from "react";
+
+interface SiteSettings {
+  phone: string;
+  email: string;
+  address: string;
+  facebookUrl: string;
+  instagramUrl: string;
+  whatsapp: string;
+  [key: string]: string;
+}
+
+const defaultSettings: SiteSettings = {
+  phone: "+27 72 454 3278",
+  email: "sabmaoffice@gmail.com",
+  address: "South Africa",
+  facebookUrl: "",
+  instagramUrl: "",
+  whatsapp: "+27724543278",
+};
 
 export default function ContactPage() {
+  const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,6 +33,17 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch('/api/site-settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data && typeof data === 'object') {
+          setSettings({ ...defaultSettings, ...data });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +68,7 @@ export default function ContactPage() {
         setIsSubmitted(true);
         setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
       } else {
-        const mailtoLink = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+        const mailtoLink = `mailto:${settings.email}?subject=${encodeURIComponent(
           formData.subject || "Contact from SABMA Website"
         )}&body=${encodeURIComponent(
           `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
@@ -47,7 +77,7 @@ export default function ContactPage() {
         setIsSubmitted(true);
       }
     } catch {
-      const mailtoLink = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+      const mailtoLink = `mailto:${settings.email}?subject=${encodeURIComponent(
         formData.subject || "Contact from SABMA Website"
       )}&body=${encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
@@ -116,8 +146,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-cream mb-1">Phone</h3>
-                    <a href={`tel:${siteConfig.phone}`} className="text-stone-400 hover:text-amber-500 transition-colors">
-                      {siteConfig.phone}
+                    <a href={`tel:${settings.phone}`} className="text-stone-400 hover:text-amber-500 transition-colors">
+                      {settings.phone}
                     </a>
                   </div>
                 </div>
@@ -131,8 +161,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-cream mb-1">Email</h3>
-                    <a href={`mailto:${siteConfig.email}`} className="text-stone-400 hover:text-amber-500 transition-colors">
-                      {siteConfig.email}
+                    <a href={`mailto:${settings.email}`} className="text-stone-400 hover:text-amber-500 transition-colors">
+                      {settings.email}
                     </a>
                   </div>
                 </div>
@@ -147,7 +177,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-cream mb-1">Location</h3>
-                    <p className="text-stone-400">{siteConfig.address}</p>
+                    <p className="text-stone-400">{settings.address}</p>
                   </div>
                 </div>
               </div>
@@ -157,7 +187,7 @@ export default function ContactPage() {
                 <h3 className="font-semibold text-cream mb-4">Follow Us</h3>
                 <div className="flex gap-3">
                   <a
-                    href={siteConfig.social.facebook}
+                    href={settings.facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-xl bg-white/5 border border-white/10
@@ -171,7 +201,7 @@ export default function ContactPage() {
                     </svg>
                   </a>
                   <a
-                    href={siteConfig.social.instagram}
+                    href={settings.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-xl bg-white/5 border border-white/10
@@ -196,7 +226,7 @@ export default function ContactPage() {
                   For urgent inquiries, call us directly or send a WhatsApp message.
                 </p>
                 <a
-                  href={`https://wa.me/${siteConfig.phone.replace(/[^0-9]/g, "")}`}
+                  href={`https://wa.me/${settings.phone.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-amber-500 font-medium hover:text-amber-400 transition-colors"

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { breeders } from "@/data/content";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Breeders",
@@ -8,7 +10,11 @@ export const metadata: Metadata = {
     "Meet our accredited breeders committed to upholding our standards and ensuring the well-being of the South African Black Mastiff breed.",
 };
 
-export default function BreedersPage() {
+export default async function BreedersPage() {
+  const breeders = await prisma.breeder.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: 'asc' },
+  });
   return (
     <>
       {/* Hero Section */}
@@ -41,6 +47,11 @@ export default function BreedersPage() {
       <section className="section-padding bg-charcoal relative">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-stone-700/50 to-transparent" />
         <div className="container-custom">
+          {breeders.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-stone-500 text-lg">No accredited breeders to display at this time.</p>
+            </div>
+          ) : (
           <div className="space-y-8">
             {breeders.map((breeder, index) => (
               <div
@@ -73,7 +84,7 @@ export default function BreedersPage() {
                       className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center
                                 border border-amber-500/20 text-amber-500 font-display font-medium text-lg"
                     >
-                      {breeder.id.toString().padStart(2, "0")}
+                      {(index + 1).toString().padStart(2, "0")}
                     </div>
                     <div>
                       <h2 className="font-display text-2xl font-medium text-cream">
@@ -140,6 +151,7 @@ export default function BreedersPage() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

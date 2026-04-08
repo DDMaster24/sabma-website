@@ -82,14 +82,28 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const search = searchParams.get('search') || ''
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: any = {}
+    if (search) {
+      where.OR = [
+        { registeredName: { contains: search, mode: 'insensitive' } },
+        { registrationNumber: { contains: search, mode: 'insensitive' } },
+      ]
+    }
+
     const dogs = await prisma.dog.findMany({
+      where,
       include: {
         kennel: true,
         photos: { where: { isPrimary: true }, take: 1 },
       },
       orderBy: { createdAt: 'desc' },
+      take: 100,
     })
 
     return NextResponse.json(dogs)

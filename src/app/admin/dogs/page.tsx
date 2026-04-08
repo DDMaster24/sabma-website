@@ -1,43 +1,94 @@
+'use client'
+
 import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
-import { Plus, Eye, Edit, Search } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Eye, Edit, Search, Trash2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { formatDate } from '@/lib/utils'
 
-interface PageProps {
-  searchParams: { search?: string }
+interface Dog {
+  id: string
+  registeredName: string
+  registrationNumber: string | null
+  sex: string
+  dateOfBirth: string
+  kennel: { name: string } | null
 }
 
-export default async function AdminDogsPage({ searchParams }: PageProps) {
-  const search = searchParams.search || ''
+export default function AdminDogsPage() {
+  const [dogs, setDogs] = useState<Dog[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [error, setError] = useState('')
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const where: any = {}
-  if (search) {
-    where.OR = [
-      { registeredName: { contains: search, mode: 'insensitive' } },
-      { registrationNumber: { contains: search, mode: 'insensitive' } },
-    ]
+  useEffect(() => {
+    fetchDogs()
+  }, [])
+
+  async function fetchDogs(query = '') {
+    setIsLoading(true)
+    try {
+      const url = query ? `/api/dogs?search=${encodeURIComponent(query)}` : '/api/dogs'
+      const res = await fetch(url)
+      if (res.ok) {
+        const data = await res.json()
+        setDogs(data)
+      }
+    } catch (err) {
+      console.error('Error fetching dogs:', err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const dogs = await prisma.dog.findMany({
-    where,
-    include: { kennel: true },
-    orderBy: { createdAt: 'desc' },
-    take: 100,
-  })
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault()
+    fetchDogs(search)
+  }
+
+  async function handleDelete(id: string, name: string) {
+    if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) return
+
+    try {
+      const res = await fetch(`/api/dogs/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        fetchDogs(search)
+      } else {
+        const data = await res.json()
+        setError(data.error || 'Failed to delete dog')
+      }
+    } catch (err) {
+      console.error('Error deleting dog:', err)
+      setError('Failed to delete dog')
+    }
+  }
+
+  function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString('en-ZA', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-bronze-500" />
+      </div>
+    )
+  }
 
   return (
-    <div className="container-custom py-8">
+    <div className="space-y-8 p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-display text-display-sm font-semibold text-espresso">
+          <h1 className="text-3xl font-display font-bold text-espresso">
             Manage Dogs
           </h1>
-          <p className="text-warm-600 mt-1">
+          <p className="mt-2 text-warm-600">
             Add, edit, and manage registered dogs.
           </p>
         </div>
@@ -49,16 +100,24 @@ export default async function AdminDogsPage({ searchParams }: PageProps) {
         </Button>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+          {error}
+          <button onClick={() => setError('')} className="ml-2 underline text-sm">dismiss</button>
+        </div>
+      )}
+
       {/* Search */}
-      <Card className="mb-6">
+      <Card>
         <CardContent className="p-4">
-          <form className="flex gap-4">
+          <form onSubmit={handleSearch} className="flex gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-warm-400" />
               <Input
-                name="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name or registration number..."
-                defaultValue={search}
                 className="pl-10"
               />
             </div>
@@ -133,6 +192,14 @@ export default async function AdminDogsPage({ searchParams }: PageProps) {
                             <Link href={`/admin/dogs/${dog.id}/edit`}>
                               <Edit className="w-4 h-4" />
                             </Link>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(dog.id, dog.registeredName)}
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
                       </td>
