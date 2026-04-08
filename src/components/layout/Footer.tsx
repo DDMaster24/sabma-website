@@ -2,13 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { siteConfig, navigation } from "@/data/content";
+import { useState, useEffect } from "react";
+import { navigation } from "@/data/content";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [settings, setSettings] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch('/api/site-settings')
+      .then(res => res.json())
+      .then(data => { if (data && typeof data === 'object') setSettings(data); })
+      .catch(() => {});
+  }, []);
+
+  const siteConfig = {
+    phone: settings.phone || '+27 72 454 3278',
+    email: settings.email || 'sabmaoffice@gmail.com',
+    fullName: settings.fullName || 'South African Black Mastiff Association',
+    social: {
+      facebook: settings.facebookUrl || '',
+      instagram: settings.instagramUrl || '',
+    },
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

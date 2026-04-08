@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
-import { siteConfig } from "@/data/content";
 
 const mainNav = [
   { name: "Home", href: "/" },
@@ -90,7 +89,11 @@ export default function Header() {
   const { status } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<Record<string, string>>({});
   const isAuthenticated = status === "authenticated";
+
+  const phone = siteSettings.phone || "+27 72 454 3278";
+  const logoUrl = siteSettings.logoUrl || "/images/logo/sabma-logo.png";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,6 +101,13 @@ export default function Header() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/site-settings')
+      .then(res => res.json())
+      .then(data => { if (data && typeof data === 'object') setSiteSettings(data); })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -126,7 +136,7 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-3 group">
               <div className={`relative transition-all duration-500 ${isScrolled ? "w-10 h-10" : "w-12 h-12"}`}>
                 <Image
-                  src="/images/logo/sabma-logo.png"
+                  src={logoUrl}
                   alt="SABMA Logo"
                   fill
                   className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
@@ -159,14 +169,14 @@ export default function Header() {
             <div className="hidden lg:flex items-center gap-4">
               {/* Phone */}
               <a
-                href={`tel:${siteConfig.phone}`}
+                href={`tel:${phone}`}
                 className="flex items-center gap-2 px-3 py-2 text-[13px] text-stone-400 hover:text-cream transition-colors duration-300"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span className="hidden xl:inline">{siteConfig.phone}</span>
+                <span className="hidden xl:inline">{phone}</span>
               </a>
 
               {/* Registry / Login */}
@@ -298,14 +308,14 @@ export default function Header() {
           {/* Mobile Footer */}
           <div className="p-8 border-t border-stone-800/50">
             <a
-              href={`tel:${siteConfig.phone}`}
+              href={`tel:${phone}`}
               className="flex items-center justify-center gap-3 w-full py-4 bg-amber-600 hover:bg-amber-500 text-noir font-semibold rounded-xl transition-colors duration-300"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              {siteConfig.phone}
+              {phone}
             </a>
           </div>
         </div>

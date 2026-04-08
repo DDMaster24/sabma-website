@@ -61,7 +61,7 @@ function useScrollReveal(threshold = 0.1) {
 // HERO SECTION - Dramatic Noir
 // ========================================
 
-function HeroSection() {
+function HeroSection({ settings }: { settings: HomeSettings }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -113,16 +113,16 @@ function HeroSection() {
 
             {/* Main headline */}
             <h1 className="heading-hero text-cream mb-8">
-              <span className="block">South</span>
-              <span className="block">African</span>
-              <span className="block text-gradient-amber">Black Mastiff</span>
+              <span className="block">{settings.heroTitle1 || 'South'}</span>
+              <span className="block">{settings.heroTitle2 || 'African'}</span>
+              <span className="block text-gradient-amber">{settings.heroTitle3 || 'Black Mastiff'}</span>
             </h1>
 
             {/* Subheadline */}
             <p className={`text-stone-400 text-xl lg:text-2xl leading-relaxed max-w-xl mb-12 transition-all duration-1000 delay-400 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              Preserving bloodlines. Certifying excellence.
+              {settings.heroSubtitle || 'Preserving bloodlines. Certifying excellence.'}
               <span className="block mt-2 text-stone-500 text-lg">
-                The definitive registry for South Africa&apos;s most distinguished breed.
+                {settings.heroSubtitle2 || "The definitive registry for South Africa's most distinguished breed."}
               </span>
             </p>
 
@@ -150,7 +150,7 @@ function HeroSection() {
               <div className="relative h-full bg-gradient-to-br from-charcoal to-noir rounded-2xl overflow-hidden border border-stone-800/50">
                 {/* Hero Image */}
                 <Image
-                  src="/images/breed/black-mastiff-adult-studio.png"
+                  src={settings.heroImage || "/images/breed/black-mastiff-adult-studio.png"}
                   alt="South African Black Mastiff - Majestic breed portrait"
                   fill
                   className="object-cover object-center"
@@ -770,17 +770,53 @@ function CTASection() {
 // MAIN PAGE
 // ========================================
 
+interface HomeSettings {
+  heroTitle1?: string;
+  heroTitle2?: string;
+  heroTitle3?: string;
+  heroSubtitle?: string;
+  heroSubtitle2?: string;
+  heroImage?: string;
+  showMarqueeTicker?: string;
+  showAboutSection?: string;
+  showStatsSection?: string;
+  showBenefitsSection?: string;
+  showBreedersSection?: string;
+  showTestimonialsSection?: string;
+  showCtaSection?: string;
+  [key: string]: string | undefined;
+}
+
+function useHomeSettings() {
+  const [settings, setSettings] = useState<HomeSettings>({});
+
+  useEffect(() => {
+    fetch('/api/site-settings')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data === 'object') setSettings(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const isVisible = (key: string) => settings[key] !== 'false';
+
+  return { settings, isVisible };
+}
+
 export default function Home() {
+  const { settings, isVisible } = useHomeSettings();
+
   return (
     <>
-      <HeroSection />
-      <MarqueeTicker />
-      <AboutSection />
-      <StatsSection />
-      <BenefitsSection />
-      <BreedersSection />
-      <TestimonialsSection />
-      <CTASection />
+      <HeroSection settings={settings} />
+      {isVisible('showMarqueeTicker') && <MarqueeTicker />}
+      {isVisible('showAboutSection') && <AboutSection />}
+      {isVisible('showStatsSection') && <StatsSection />}
+      {isVisible('showBenefitsSection') && <BenefitsSection />}
+      {isVisible('showBreedersSection') && <BreedersSection />}
+      {isVisible('showTestimonialsSection') && <TestimonialsSection />}
+      {isVisible('showCtaSection') && <CTASection />}
     </>
   );
 }
