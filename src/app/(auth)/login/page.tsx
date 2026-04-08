@@ -195,9 +195,11 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
       </div>
 
-      <Suspense fallback={<LoginFormFallback />}>
-        <LoginForm />
-      </Suspense>
+      <div className="relative z-10">
+        <Suspense fallback={<LoginFormFallback />}>
+          <LoginForm />
+        </Suspense>
+      </div>
     </div>
   )
 }
