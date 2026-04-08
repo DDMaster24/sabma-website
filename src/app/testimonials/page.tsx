@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { testimonials } from "@/data/content";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Testimonials",
@@ -8,7 +10,12 @@ export const metadata: Metadata = {
     "Read what our members and owners say about the South African Black Mastiff breed and their experience with SABMA.",
 };
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const testimonials = await prisma.testimonial.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: 'asc' },
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -35,6 +42,11 @@ export default function TestimonialsPage() {
       {/* Testimonials Grid */}
       <section className="section-padding bg-noir">
         <div className="container-custom">
+          {testimonials.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-stone-500 text-lg">No testimonials to display at this time.</p>
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
               <div
@@ -74,6 +86,7 @@ export default function TestimonialsPage() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

@@ -53,10 +53,17 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const all = searchParams.get('all') === 'true'
+    let showAll = searchParams.get('all') === 'true'
+
+    if (showAll) {
+      const session = await getServerSession(authOptions)
+      if (!session || !isAdmin(session.user?.role)) {
+        showAll = false
+      }
+    }
 
     const calendarEvents = await prisma.calendarEvent.findMany({
-      where: all ? {} : { active: true },
+      where: showAll ? {} : { active: true },
       orderBy: { date: 'asc' },
     })
 

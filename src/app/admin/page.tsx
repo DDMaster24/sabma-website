@@ -180,7 +180,7 @@ export default async function AdminDashboard() {
                     </div>
                     <div className="flex gap-2">
                       <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/registry/dogs/${dog.id}`}>
+                        <Link href={`/admin/dogs/${dog.id}/edit`}>
                           <Eye className="w-4 h-4" />
                         </Link>
                       </Button>

@@ -184,7 +184,7 @@ export default function AdminDogsPage() {
                       <td className="py-3 px-4 text-right">
                         <div className="flex justify-end gap-2">
                           <Button variant="ghost" size="sm" asChild>
-                            <Link href={`/registry/dogs/${dog.id}`}>
+                            <Link href={`/admin/dogs/${dog.id}/edit`}>
                               <Eye className="w-4 h-4" />
                             </Link>
                           </Button>

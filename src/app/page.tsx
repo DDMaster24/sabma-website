@@ -128,7 +128,7 @@ function HeroSection() {
 
             {/* CTAs */}
             <div className={`flex flex-wrap gap-4 transition-all duration-1000 delay-500 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <Link href="/registry" className="btn-primary">
+              <Link href="/registry/dogs" className="btn-primary">
                 <span>Access Registry</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -585,8 +585,8 @@ function BreedersSection() {
 
                 {/* View profile on hover */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                  <Link href={`/breeders/${breeder.id}`} className="inline-flex items-center gap-2 text-cream text-sm font-semibold hover:text-amber-400 transition-colors">
-                    <span className="tracking-wide uppercase">View Profile</span>
+                  <Link href="/breeders" className="inline-flex items-center gap-2 text-cream text-sm font-semibold hover:text-amber-400 transition-colors">
+                    <span className="tracking-wide uppercase">View All Breeders</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>

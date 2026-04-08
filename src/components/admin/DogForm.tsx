@@ -127,7 +127,7 @@ export function DogForm({ kennels, dogs, initialData }: DogFormProps) {
       }
 
       const dog = await response.json()
-      router.push(`/registry/dogs/${dog.id}`)
+      router.push(`/admin/dogs/${dog.id}/edit`)
       router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
