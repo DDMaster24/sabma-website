@@ -100,7 +100,8 @@ Protected by NextAuth session + role check. Navigate at `/admin`:
 ## Environment Variables
 
 ```
-DATABASE_URL=postgresql://...
+DATABASE_URL=postgresql://... (Neon)
+DIRECT_URL=postgresql://... (Neon, same as DATABASE_URL)
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=<generated-key>
 ADMIN_EMAIL=admin@sabma.org
